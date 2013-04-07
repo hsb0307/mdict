@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<style type="text/css">
+/*.login_body{background-image: url(images/login_bg.jpg); background-repeat: repeat-x;text-align: center; }*/
+
+.login_div{background-image: url(images/login_man_bg.jpg); background-repeat: no-repeat;background-position: center top; width: 877px; height: 694px; margin: 0 auto; text-align:left; overflow:hidden }
+.login_table{ margin-top:408px;margin-left:312px;}
+.login_table td{ }
+.login_text{ height:22px; line-height:22px; border:solid 1px #ffffff; width:158px; margin-bottom:3px;}
+.login_btn{background-image: url(images/login_btn.jpg); background-color:transparent; border:none; width:52px; height:30px; }
+#register{background-image: url(images/register.jpg);background-color:transparent; border:none; width:52px; height:30px;}
+#help{background-image: url(images/help.jpg);background-color:transparent; border:none; width:52px; height:30px;}
+
+.overlay{ position:absolute;  left:0;  top:0;  width:100%;  height:100%;  opacity:0.3;  filter:alpha(opacity=30);  display:none}
+.overlay-msg{ position:absolute;  top:70%;  margin-top:-20px;  padding:12px 5px 10px 30px;  width:auto;  height:16px;  border-width:2px;  border-style:solid;  display:none}
+
+</style>
+
+<script type="text/javascript">
+	$(document).ready(
+		function(){
+			
+			if($.browser.msie && (parseInt($.browser.version, 10) == 7 || parseInt($.browser.version, 10) == 6) ) {
+			    $("#loginForm").append("<div style='margin-top:20px;'>本系统要求在IE8以上版本使用，请先从<a href='http://www.microsoft.com/zh-cn/download/details.aspx?id=43'>微软的网站下载</a>，或者直接从<a href='help/IE8-WindowsXP-x86-CHS.exe'>本地下载</a>，然后安装。</div>")
+			}
+			
+			function login(){
+				var message = "";
+				if($.trim($("#username").val()).length == 0) message += "请输入用户帐号！\r\n";
+				if($.trim($("#password").val()).length == 0) message += "请输入密码！\r\n";
+				if(message.length > 0) {
+					alert(message);
+					return false;
+				}
+				
+				setTimeout(function(){
+					var overlay = $(document.body);//  $("#tblTaskItem").datagrid("getPanel");// $("#tblTaskItem");
+			        $("<div class=\"overlay\" style=\"display:block\"></div>").appendTo(overlay);
+			        var msg = $("<div class=\"overlay-msg\" style=\"display:block\"></div>").html("正在登录，请稍等......").appendTo(overlay);
+			        msg.css("left", (overlay.width() - msg.outerWidth()) / 2);
+				},1000);
+				
+				var fields = {"Username": document.getElementById("username").value,
+						"Password": document.getElementById("password").value}; //"UserAgent":navigator.userAgent
+				jQuery.post("control/user/login.php", fields, function (data){
+					//location = 'control/word/editword.php';
+					var user = eval("(" + data + ")");
+					if(!user.RoleId){
+						alert("用户名称不存在，或者密码错误！");
+						return false;
+					}
+					if(!user.IsApproved || user.IsApproved === "0" || user.IsApproved == 0) {
+						alert("您还没有被批准，请联系管理员！");
+						return false;	
+					}
+					if(user.RoleId === "0"){
+						alert("登录成功");
+					} else if (user.RoleId ==="1") {
+						//console.info(user.RoleId);
+						if(user.HasPackage > 0) 
+							location = 'control/word/editword.php';
+						else
+							location = 'control/task/myeditpackage.php';
+					} else if(user.RoleId === "2"){
+						if(user.HasPackage > 0) 
+							location = 'control/word/reviseword.php';
+						else
+							location = 'control/task/myrevisepackage.php';
+					} else if (user.RoleId ==="3"){
+						if(user.HasPackage > 0) 
+							location = 'control/word/approveword.php';
+						else
+							location = 'control/task/myapprovepackage.php';
+					} else if (user.RoleId ==="71"){
+						//console.log(user.RoleId);
+						location = 'control/word/addword.php';
+					} else if (user.RoleId ==="81"){
+						location = 'control/task/editpackage.php';
+					} else if (user.RoleId ==="82"){
+						location = 'control/task/resivepackage.php';
+					} else if (user.RoleId ==="83"){
+						location = 'control/task/approvepackage.php';
+					} else if (user.RoleId ==="91"){
+						location = 'control/admin/dashboard.php';
+							
+					} else {
+						alert("登录失败");
+					}
+				});
+			}
+			$("#submit").click(function() {
+				login();
+			});
+			
+			$(document).keyup(function(event){
+				  if(event.keyCode ==13){
+				    $("#submit").trigger("click");
+				  }
+			});
+			$("#username").keyup(function(e) {
+				if(e.keyCode == 13)
+					$("#password").focus();//login();
+			});
+	});
+</script>
+</head>
+<body class="login_body">
+    <div class="login_div" id="loginForm">
+        <table cellpadding="0" cellspacing="0" class="login_table" >
+            <tr>
+                <td style="width:160px;"><input name="username" type="text" id="username" class="login_text" /></td>
+                <td style="width:160px;padding-left:55px;"> <input  name="password" type="password" id="password" class="login_text" /></td>
+                <td style="padding-left:16px;"><input id="submit" type="button" value="" class="login_btn" /></td>
+            </tr>
+            <tr ><td colspan="3" align="right" >
+            	<div style="margin-top:30px;"><input id="register" onclick="javascript:location.href='control/user/register.htm';" type="button" value=""  /> 
+                  <input id="help" onclick="javascript:window.location.href='help/index.html';" type="button" value=""  /><!--注册  帮助 -->
+                </div>
+            </td></tr>
+        </table>
+        
+    </div>
+</body>
+</html>

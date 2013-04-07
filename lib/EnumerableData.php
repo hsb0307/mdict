@@ -1,0 +1,101 @@
+<?php
+return array(
+		'WordCategory'=>array(
+				array('id'=>1,'name'=>'数学'),
+                array('id'=>2,'name'=>'物理学'),
+                array('id'=>3,'name'=>'化学'),
+                array('id'=>4,'name'=>'生物学'),
+                array('id'=>5,'name'=>'计算机'),
+                array('id'=>7,'name'=>'历史'),
+                array('id'=>8,'name'=>'逻辑学'),
+                array('id'=>9,'name'=>'生态学'),
+                array('id'=>10,'name'=>'新闻学'),
+                array('id'=>11,'name'=>'地理学'),
+                array('id'=>13,'name'=>'体育学'),
+                array('id'=>15,'name'=>'公安'),
+                array('id'=>16,'name'=>'法律学'),
+                array('id'=>18,'name'=>'哲学'),
+                array('id'=>19,'name'=>'心理学'),
+                array('id'=>20,'name'=>'文学'),
+                array('id'=>21,'name'=>'金融'),
+                array('id'=>22,'name'=>'统计学'),
+                array('id'=>23,'name'=>'通信'),
+                array('id'=>24,'name'=>'语言学'),
+                array('id'=>101,'name'=>'综合'),
+				array('id'=>991,'name'=>'新建词条')),
+		'PackageStatus'=>array(
+				array('id'=>0,'name'=>'已分配'),
+				array('id'=>2,'name'=>'已提交'),
+				array('id'=>4,'name'=>'已撤销'),
+				array('id'=>999,'name'=>'已删除')),
+		'PackageItemStatus'=>array(
+				array('id'=>0,'name'=>'已分配'),
+				array('id'=>2,'name'=>'已处理'),
+				array('id'=>4,'name'=>'已提交'),
+				array('id'=>6,'name'=>'已撤销'),
+				array('id'=>999,'name'=>'已删除')),
+		'WordStatus'=>array(
+				array('id'=>0,'name'=>'新建'),
+				array('id'=>2,'name'=>'录入中'),
+				array('id'=>4,'name'=>'录入完成'),
+				array('id'=>6,'name'=>'编辑中'),
+				array('id'=>8,'name'=>'编辑完成'),
+				array('id'=>10,'name'=>'审定中'),
+				array('id'=>12,'name'=>'审定完成'),
+				array('id'=>14,'name'=>'已完成'),
+				array('id'=>16,'name'=>'已公布'),
+				array('id'=>999,'name'=>'已删除')),
+		'UserRole'=>array(
+				array('id'=>0,'name'=>'未使用'),
+				array('id'=>1,'name'=>'录入人'),
+				array('id'=>2,'name'=>'编辑人'),
+				array('id'=>3,'name'=>'审定人'),
+				array('id'=>91,'name'=>'系统管理员')),
+		'LogCategory'=>array(
+				array('id'=>1, 'name'=>'登录'),
+				array('id'=>2, 'name'=>'注销'),
+				array('id'=>3, 'name'=>'页面访问'),
+				array('id'=>4, 'name'=>'数据操作'),
+				array('id'=>5, 'name'=>'已撤销'),
+				array('id'=>900, 'name'=>'出错'),
+				array('id'=>901, 'name'=>'执行SQL语句')),
+		'SysModule'=>array(
+				array('id'=>1, 'name'=>'用户管理'),
+				array('id'=>2, 'name'=>'任务管理'),
+				array('id'=>3, 'name'=>'词条管理'),
+				array('id'=>4, 'name'=>'日志管理'),
+				array('id'=>5, 'name'=>'系统管理'),
+				array('id'=>900, 'name'=>'备用'),
+				array('id'=>901, 'name'=>'备用')),
+		'Operation'=>array(
+				array('id'=>101, 'name'=>'用户注册'),
+				array('id'=>102, 'name'=>'用户审核'),
+				array('id'=>103, 'name'=>'登录'),
+				array('id'=>104, 'name'=>'修改用户资料'),
+				
+				array('id'=>201, 'name'=>'建立录入数据包'),
+				array('id'=>202, 'name'=>'提交录入数据包'),
+				array('id'=>203, 'name'=>'撤销录入数据包'),
+				
+				array('id'=>204, 'name'=>'建立编辑数据包'),
+				array('id'=>205, 'name'=>'提交编辑数据包'),
+				array('id'=>206, 'name'=>'撤销编辑数据包'),
+				
+				array('id'=>207, 'name'=>'建立审定数据包'),
+				array('id'=>208, 'name'=>'提交审定数据包'),
+				array('id'=>209, 'name'=>'撤销审定数据包'),
+				
+				array('id'=>301, 'name'=>'录入时修改词条'),
+				array('id'=>302, 'name'=>'编辑时修改词条'),
+				array('id'=>303, 'name'=>'审定时修改词条'),
+				
+				array('id'=>304, 'name'=>'编辑时删除词条'),
+				array('id'=>305, 'name'=>'审定时删除词条'),
+				array('id'=>306, 'name'=>'编辑时添加词条'),
+				array('id'=>307, 'name'=>'审定时添加词条'),
+				
+				
+				array('id'=>900, 'name'=>'备用'),
+				array('id'=>901, 'name'=>'备用')),
+);
+?>

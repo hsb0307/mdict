@@ -1,0 +1,293 @@
+.mongol_write
+{
+	-moz-writing-mode: vertical-lr; /*for mozilla*/
+	-webkit-writing-mode: vertical-lr; /*for chrome*/
+	-o-writing-mode: vertical-lr; /*for safari?*/
+	-ms-writing-mode: tb-lr; /*not known*/
+	writing-mode: tb-lr; /*IE 8 or up*/
+}
+
+/*
+@font-face {
+    font-family: SYMN2008;
+    font-style:  normal;
+    font-weight: normal;
+    src: url(../Fonts/MENKSOF0.eot);
+  }
+
+
+@font-face {
+    font-family: Menksoft2007;
+    src: url(../Fonts/Menksoft2007.eot);
+    src: url(../Fonts/Menksoft2007.eot?#iefix) format('embedded-opentype'),
+         url(../Fonts/Menksoft2007.ttf) format('truetype'),
+         url(../Fonts/Menksoft2007.woff) format('woff'),         
+		 url(../Fonts/Menksoft2007.svg#Menksoft2007) format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: MenksoftHawang;
+    src: url(../Fonts/MenksoftHawang.eot);
+    src: url(../Fonts/MenksoftHawang.eot?#iefix) format('embedded-opentype'),
+         url(../Fonts/MenksoftHawang.ttf) format('truetype'),
+         url(../Fonts/MenksoftHawang.woff) format('woff'),         
+		 url(../Fonts/MenksoftHawang.svg#MenksoftHawang) format('svg');
+    font-weight:100;
+    font-style:normal;
+}
+*/
+/*#font-Hawang
+{
+	font-family:MenksoftHawang;
+}*/
+
+
+
+@font-face {
+	font-family: Mongolian Baiti;
+	src: url(../Fonts/MONGOLI1.eot);
+}
+
+#header {
+	background-image: url("../images/headerbg.jpg");
+	background-repeat: repeat-x;
+	height: 70px;
+	position: relative;
+} /* repeat-X */
+#logo {
+	position: relative;
+}
+
+#logo img {
+	top: 22px;
+	left: 30px;
+	position: absolute;
+}
+
+#currentUser {
+	
+	position: relative;
+}
+
+#currentUser a {
+	top: 30px;
+	right: 100px;
+	position: absolute;
+}
+
+#dataPackage { /*border:1px solid red;*/
+	top: 30px;
+	right: 20px;
+	width: 70px;
+	position: absolute;
+}
+
+.pull-right { /*border:1px solid red;*/
+	top: 20px;
+	right: 50px;
+	width: 120px;
+	position: absolute;
+}
+
+#currentUser a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+.row {
+	position: relative;
+	/*border:1px solid black;*/
+	width: 1170px;
+	/*height: 566px;*/
+	margin: 0 auto;
+}
+
+.row ul li:hover {
+	color: #3DAAE9;
+	cursor: pointer;
+	cursor: hand;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.row ul div:hover {
+	background: #FCF8E3; /*#FBEED5;*/
+}
+
+.row ul div li { /*border:1px solid black;*/
+	display: inline-block;
+}
+
+.row ul div a { /*border:1px solid black;*/
+	display: none;
+}
+
+.container {
+	width: 1170px;
+}
+
+.span3 {
+	top: 0px;
+	left: 0px;
+	width: 220px;
+	position: absolute;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+#words li {
+	list-style-type: none;
+}
+
+.span9 {
+	width: 900px;
+	height: 616px;
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	margin: 0 auto;
+	padding: 10px;
+
+	/*right: 10px;*/
+}
+
+#BSEditorCtrl{
+	top:160px;
+	left:140px;
+	position: absolute;
+}
+
+#entry {
+	position: relative;
+}
+
+.btnModify {
+	top: 450px;
+	left: 400px;
+	width: 60px;
+	position: absolute;
+}
+
+#entryInput {
+	top: 0px;
+	left: 0px;    
+	position: absolute;
+	/*border:1px solid black;*/
+}
+
+#entryInput label {	
+	left:-50px;
+	position: relative;
+}
+
+#entryInput input {
+	width: 200px;
+	left:-50px;
+	position: relative;
+}
+
+#entryInput  textarea {
+	width: 200px;
+	left:-50px;
+	position: relative;
+}
+
+/*#entryInputMongolian {
+	top: 0px;
+	left: 350px;
+	position: absolute;
+	border:1px solid black;
+}*/
+
+/*#entryInputMongolian textarea {
+	width: 250px;
+	height: 100px;
+}*/
+
+
+
+.toolbar { /*	
+height:30px;
+	line-height:30px;
+	margin:0 auto;*/
+	position: relative;
+}
+
+.toolbar #dataPackageList {
+	width: 185px;
+	/*position: absolute;*/
+}
+
+.toolbar #txtSearch {
+	width: 185px;
+	/*position: absolute;*/
+}
+
+.toolbar #add {
+	left: 600px;
+	position: absolute;
+}
+
+.toolbar #left {
+	left: 750px;
+	position: absolute;
+}
+
+.toolbar #right {
+	left: 770px;
+	position: absolute;
+}
+
+.toolbar #history {
+	left: 800px;
+	position: absolute;
+}
+
+.toolbar #user {
+	top: 70px;
+	right: 120px;
+	width: 50px;
+	position: absolute;
+}
+
+#progress {
+	width: 500px;
+	left: 50px;
+	bottom: 30px;
+	position: absolute;
+	/*border:1px solid red;*/
+}
+
+#bottomPager {
+	margin-left: 0px;
+	height: 28px;
+	position: absolute;
+	bottom: 10px;
+	/*border:1px solid red;*/
+}
+
+#pageinfo {
+	margin-left: 2px;
+	color: #0061DE;
+	height: 28px;
+	line-height: 28px;
+	font-family: Tahoma, Helvetica, sans-serif;
+	font-size: 12px;
+	float: left;
+	/*padding-top:2px;
+
+border:1px solid black;*/
+}
+
+#pagination {
+	margin-top: 0;
+	float: left;
+	font-size: 12px;
+
+	/*border:1px solid black;*/
+}
+
+.icon-remove {
+	margin-left: 50px;
+}

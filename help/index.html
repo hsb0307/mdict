@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>系统操作说明</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<!--  styles -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/bootstrap-responsive.min.css" rel="stylesheet">
+<style type="text/css">
+.span3{width:220px;}
+.span9{width:840px;}
+#userinfo {position: relative; }
+#userinfo ul {position: absolute; top:30px; padding-right:40px; }
+.table{margin-bottom:10px;}
+h4{margin-top:30px;}
+div p{text-indent:30px;}
+</style>
+</head>
+
+<body>
+<div id="header" class="container">
+	<div id="logo">
+		<img src="../images/logo1.jpg"></img>
+	</div>
+	
+</div>
+
+<!-- <div class="clearfix"></div> -->
+<div class="container" style="margin-top: 10px;">
+	<div class="row">
+	<div class="well sidebar-nav span3">
+	<h2>帮助导航</h2>
+		<ul id="words" class="nav nav-list">
+			<li><a href='#preparation'  >1、使用系统之前的准备</a> </li>
+			<li><a href='#register' >2、注册为系统用户</a> </li>
+			<li><a href='#login' >3、登录到系统</a> </li>
+			
+			<li><a href='#mypackage'  >4、我的数据包</a> </li>
+			<li><a href='#edit'>5、录入界面</a> </li>
+			<li><a href='#revise'  >6、编辑界面</a> </li>
+			<!--
+			<li><a href='#approve'  >7、审定界面</a> </li>
+			<li><a href='#addword'  >8、添加词条</a> </li>
+			<li><a href='#searchword'  >9、查询词条</a> </li>
+			<li><a href='#guestbook'  >10、留言管理</a> </li>
+			<li><a href='#log'  >11、操作日志</a> </li>
+			-->
+		</ul>
+	</div>
+	<div class="span9">
+	
+<h4><a name="preparation" id="preparation"> 1、使用系统之前的准备</a></h4>
+<hr />
+<div>
+<p></p>
+<p>为了能够正常显示和编辑传统蒙古文，需要安装一个传统蒙古文编辑控件。</p>
+<p>（1）排版显示控件</p>
+<p>下载<a href="mongbase.zip" >蒙古文编辑控件</a> mongbase.zip 到计算机本地硬盘，解压缩后有mongbase.msi和setup.exe两个文件，以管理员身份执行setup.exe文件，安装蒙古文支持基础软件（字库和传统蒙古文编辑控件等）。</p>
+<p>（2）OpenType支持和和传统蒙古文显示字库</p>
+<p>如果您正在使用windows 7及更高版本，或者您打算升级到windows 7及更高版本的 操作系统，请不要考虑下面的操作，Windows 7已经支持传统蒙古文了。</p>
+<p>如果您使用的是windows XP SP2以下版本，不支持蒙古文Opentype字库连接显示，需要下载<a href="xp系统补丁.zip" >Windwos XP 蒙古文显示补丁</a>，解压后执行InstallUsp10Only.exe覆盖掉您系统目录下的usp10.dll文件。替换过程中系统会报出，“您决定不还原文件的原始版本，这可能会影响windows稳定性。确定要保留这些不可识别的文件版本吗?”的提示，点击【是】按钮。
+或者选择升级到更高版本的 windows 7 操作系统。</p>
+<p>安装或更新以上控件后需要重新启动操作系统。</p>
+</div>
+
+<h4><a name="register" id="login"> 2、注册为系统用户</a></h4>
+<hr />
+<div>
+
+<p>打开浏览器，输入工作网址:http://123.178.251.146:8080/dict，首先显示注册和登录窗口。</p>
+<p><img src="login.jpg" /></p>
+<p></p>
+<p>要想登录到系统中，请先注册一个用户账户，点击【注册】按钮，就会打开一个新用户注册窗口，如下图：</p>
+<p><img src="register.png" /></p>
+<p>在新用户注册窗口中，除了固定电话和备注外，其他信息原则上都要填写。</p>
+<p>填写完毕，保存后，等待系统管理员批准您的注册请求。管理员批准后，您就可以登录系统了。</p>
+
+<p></p>
+</div>
+
+
+<h4><a name="login" id="login"> 3、登录到系统</a></h4>
+<hr />
+<div>
+
+<p>当管理员批准您的注册请求后，同样是打开注册与登录窗口，输入用户名和密码，然后点击【登录】按钮，即可登录到系统中，进行相关操作。点击【帮助】按钮查看本帮助文件。</p>
+
+<p></p>
+</div>
+
+<h4><a name="mypackage" id="mypackage"> 4、我的数据包</a></h4>
+<hr />
+<div>
+<p>如果您是录入员、编辑员、审定员，初次登录后，系统进入我的数据包页面。</p>
+<p>在这个页面您可以申请一个数据包，也可以管理您已经申请的数据包。</p>
+<p><img src="mypackage.png" /></p>
+<p>在屏幕的右上角有“欢迎您，XXXXXX”，点击可以打开一个菜单，里面有我的数据包、我的词条、修改我的信息、我要留言等等菜单项。</p>
+<p><img src="nav.png" /></p>
+</div>
+
+<h4><a name="edit" id="edit"> 5、录入界面</a></h4>
+<hr />
+<div>
+<p>登录成功后，系统会根据当前用户的身份进入不同的页面，如果您是录入员，则进入词条的录入界面。</p>
+<p><img src="edit.png" /></p>
+<p>你可以选择不同的词条进行修改，修改完毕后保存。</p>
+<p>您可以查询当前任务包中的某个词条，也可以点击“在整个词典中查询 ”，打开一个词条查询页面进行词条查询。</p>
+</div>
+
+<h4><a name="revise" id="revise">6、编辑界面</a></h4>
+<hr />
+<div>
+<p>编辑界面与录入界面的功能:</p>
+<p>6.1&nbsp;&nbsp;“数据包”的应用:</p>
+<p>“数据包”申请</p>
+<p>首次登录时系统自动进入数据包分配窗口，自行填写一个数据包名称，如“”，并确定该数据包的词条数量，按 “申请数据包” 按钮。</p>
+<p><img src="datapackage.png" /></p>
+<p>第二次或之后登录时，系统自动进入编辑界面，并打开你上次工作的数据包，如果想切换、查看或提交数据包，从下拉式菜单中选择“我的数据包”项</p>
+<p>切换数据包：可从左上角的  数据包列表  里进行切换。</p>
+<p>6.2&nbsp;&nbsp;“增加词条”:</p>
+<p>这是编辑人员增加新词条的模块。编辑人员在编辑过程中认为有些词条在已有的词典词条中没有收录，需要增加，就按 增加词条 按钮，这时会有两个选择：一是，你可以从数据库中已配备的候选词条中选定.</p>
+<p><img src="addword02.png" /></p>
+<p>　　那么该词条的中文和英文就会直接加入到数据库中，编辑人员只需要填写其蒙古文译文；二是，你可以完整地输入新词条，并将英、蒙、日（或其中的两项或一项-即蒙古文译文）添加进去。</p>
+<p>6.3&nbsp;&nbsp;“历史记录”:</p>
+<p>可翻看曾经编辑的词条，可进行再修改。</p>
+<p>6.4 &nbsp;&nbsp;“操作日志”</p>
+<p>可查看自己所操作的记录，修改的词条（修改前或修改后的）信息。</p>
+<p><img src="revise.png" /></p>
+<p>你可以选择不同的词条进行修改，修改完毕后保存。</p>
+<p>您可以查询当前任务包中的某个词条，也可以点击“在整个词典中查询 ”，打开一个词条查询页面进行词条查询。</p>
+</div>
+<!--
+<h4><a name="approve" id="approve">7、审定界面</a></h4>
+<hr />
+<div>
+</div>
+
+<h4><a name="addword" id="addword">8、添加词条</a></h4>
+<hr />
+<div>
+</div>
+
+<h4><a name="searchword" id="searchword">9、查询词条</a></h4>
+<hr />
+<div>
+</div>
+
+<h4><a name="guestbook" id="guestbook">10、留言管理</a></h4>
+<hr />
+<div>
+</div>
+
+<h4><a name="log" id="log">11、操作日志</a></h4>
+<hr />
+<div>
+</div>			
+-->
+</div>
+</div>
+</div>
+
+<div id="footer" class="container">
+</div>
+<!-- <div class="clearfix"></div> -->
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script>!window.jQuery && document.write('<script src="http://code.jquery.com/jquery-1.8.2.min.js"><\/script>');</script>
+
+<script type="text/javascript">
+function rejectEditPackage(id){
+	alert('待开发' + id);
+}
+
+$(function () {
+//
+
+});
+		
+</script>
+</body>
+</html>

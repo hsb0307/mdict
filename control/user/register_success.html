@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>注册新用户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap-responsive.min.css" rel="stylesheet">
+    <style type="text/css">
+        #header{ background-image: url("../../images/headerbg.jpg"); background-repeat: repeat-x; height:70px;} /* repeat-X */
+		#logo {position:relative;}
+		#logo img{ top:22px; left:30px;position:absolute;}
+		#currentUser {  position:relative;}
+        #currentUser a { top:30px; right:100px;position:absolute;}
+        #currentUser a:hover { color:red;text-decoration:none;}
+		.form-horizontal .control-group {margin-bottom: 10px;}/* 默认值为20 */
+		/* .form-horizontal .control-label {width: 120px;} */ /* 默认值为160 */
+#cancel {margin-left:20px;}
+
+	</style>
+  </head>
+
+<body>
+<div class="container">
+	<div id="header">
+	<div id="logo" ><img src="../../images/logo1.jpg" ></img></div>
+	<!-- 
+		<div id="currentUser" ><a href="javascript:void(0);" >一些提示信息</a></div>
+		 -->
+		<!--?php echo $currentUsername;?-->
+	</div>
+</div>
+<div class="container"  style="margin-top: 10px;">
+<div class="row">
+<div class="span12">
+	<div class="well">
+	<h3>注册成功！</h3>
+	<div style="margin-top:20px;font-size:12pt;">请等待管理员验证您的资料！</div>
+	
+	<div style="margin-top:40px;">
+	<!--  
+	<a href="javascript:void(0)" onclick="window.close();">关闭本页<i class="icon-remove"></i></a>
+	-->
+	<a href="../../signout.php" >关闭本页</a>
+	</div>
+	
+	
+		
+	</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>

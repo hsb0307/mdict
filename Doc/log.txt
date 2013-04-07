@@ -1,0 +1,1417 @@
+
+
+git@github.com:hsb0307/mdict.git
+
+https://github.com/hsb0307/mdict.git
+
+
+
+select * from [jsce] 
+--where len([词性]) > 6
+where [英文] is null
+
+select count(*) from [jsce] where [英文] is null
+
+
+<!-- 
+<div class="control-group">
+	<label class="control-label" for="Chinese">传统蒙古文:</label>
+	<div class="controls"></div>
+</div>
+ -->
+
+alter table ChineseEnglishDictionary modify WordCategory number(4,0) default (0) NOT NULL;
+
+alter table DictionaryA add (OldMongolian VARCHAR2(1023));
+
+alter table DictionaryA add ( LastModifiedBy NUMBER(10,0) default (0) NOT NULL)
+alter table DictionaryA add ( LastModifiedDate date default sysdate NOT NULL)
+alter table ApproveItems add (ModifiedDate date default sysdate not null);
+
+
+"Chinese", "Mongolian", "MongolianLatin", "MongolianCyrillic", "English", "OriginalCategory", "WordCategory", "SourceDictionary"
+
+[Types]
+php=PHP
+
+[PHP]
+ExePath=C:\PHP\php-cgi.exe
+InstanceMaxRequests=10000
+EnvironmentVars=PHP_FCGI_MAX_REQUESTS:10000
+RequestTimeout=500
+ActivityTimeout=900
+
+UPDATE DictionaryA SET OriginalCategory = 8, WordCategory = 8 WHERE SourceDictionary = 9 
+
+alter table DictionaryA add (OldMongolian VARCHAR2(1023));
+
+UPDATE DictionaryA SET Status = 4
+
+UPDATE DictionaryA SET OldMongolian = Mongolian
+
+create or replace procedure seq_reset(v_seqname varchar2) as n number(10);
+tsql varchar2(100);
+ begin
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  n:=-(n-1);
+  tsql:='alter sequence '||v_seqname||' increment by '|| n;
+  execute immediate tsql;
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  tsql:='alter sequence '||v_seqname||' increment by 1';
+ execute immediate tsql;
+ end seq_reset;
+
+ApproveItems
+ApprovePackage
+
+ReviseItems
+RevisePackage
+
+EditItems
+EditPackage
+
+DictionaryA
+
+Posts
+Topics
+Logs
+
+exec seq_reset('ApproveItem_Id')
+exec seq_reset('ApprovePackage_PackageId')
+
+exec seq_reset('ReviseItem_Id')
+exec seq_reset('RevisePackage_PackageId')
+
+exec seq_reset('EditItem_Id')
+exec seq_reset('EditPackage_PackageId')
+
+exec seq_reset('DictionaryA_WordId')
+
+exec seq_reset('Post_PostId')
+exec seq_reset('Topic_TopicId')
+exec seq_reset('Logs_LogId')
+
+DELETE FROM ApproveItems
+DELETE FROM ApprovePackage
+
+DELETE FROM ReviseItems
+DELETE FROM RevisePackage
+
+DELETE FROM EditItems
+DELETE FROM EditPackage
+
+DELETE FROM DictionaryA
+
+DELETE FROM Posts
+DELETE FROM Topics
+DELETE FROM Logs
+
+
+
+
+1	化学	化学名词术语（杨巴雅尔，内蒙古教育出版社，2005）
+2	物理	物理学名词术语（仁钦苏荣，内蒙古教育出版社，2004）
+3	数学	数学名词术语（其其格，内蒙古教育出版社，2004）
+4	计算机	计算机科技名词术语（布日古都，内蒙古教育出版社，2005）
+5		汉蒙计算机词典（嘎日迪，内蒙古人民出版社，2001）
+6	生物	生物学名词术语（吉日木图，内蒙古教育出版社，2004）
+7	生态	生态学名词术语（萨日娜，内蒙古教育出版社，2006）
+8	地理	地理学名词术语（仁钦道尔吉，内蒙古教育出版社，2005）
+9		地理学名词术语(松迪，内蒙古教育出版社，1988)
+10	法律	法律学名词术语（额尔和木，内蒙古教育出版社，2000）
+11		法律学名词术语（松迪，内蒙古教育出版社，1986）
+12	逻辑	逻辑学名词术语（图·乌力吉，内蒙古教育出版社，2007）
+13	体育	体育名词术语（札米尔，内蒙古教育出版社，2006）
+14		体育名词术语（松迪，内蒙古教育出版社，1987）
+15	文学	文学名词术语 (松迪，内蒙古教育出版社，1989)
+16	新闻	新闻学名词术语（巴干，内蒙古教育出版社，2005）
+17	语言	语言学名词术语（纳·官其格苏荣，内蒙古教育出版社，2005）
+18		语言学名词术语（松迪，内蒙古教育出版社，1985）
+19	心理	心理学名词术语（七十三，内蒙古教育出版社，2005）
+20	哲学	哲学名词术语（松迪，内蒙古教育出版社，1988）
+21	统计	汉蒙统计词汇（巴·布仁吉日格勒，内蒙古人民出版社，1997）
+22	历史	历史名词术语（松迪，内蒙古教育出版社，1985）
+23	公安	公安名词术语（那顺乌日图，内蒙古大学出版社，1997）
+24	通信	汉蒙通信词汇（权禧，内蒙古人民出版社，1999）
+25	金融	汉英蒙金融词典（金桩，内蒙古人民出版社，2008）
+
+function latinToMongolian(latin) {
+		var mongolian ="";
+		//var latin = document.getElementById("MongolianLatin").value;
+		//var a = latin.split("");
+		var length = latin.length ;
+		if(length == 1) {
+			mongolian = AscToMsMongol(latin.charAt(0));
+		} else {
+			
+		var prev = null;
+		for(var i = 0; i < length ; i++ ){
+			//charCodeAt
+			//fromCharCode
+			//parseInt()
+			var c = latin.charAt(i);
+			
+			var charCode=  c.charCodeAt(0);
+			if(charCode > 47 && charCode < 58) {//如果阿拉伯数字：0-9
+				if(prev){
+					var prevCode = prev.charCodeAt(0);
+					if(prevCode > 47 && prevCode < 58) {
+						mongolian += c;
+					} else {
+						mongolian += AscToMsMongol(c);
+					}
+				} else {
+					if(i < length - 1) {
+						var nextCode = latin.charAt(i + 1).charCodeAt(0);
+						if(nextCode > 47 && nextCode < 58) {
+							mongolian += c;
+							mongolian += latin.charAt(i + 1);
+							i = i+ 1;
+						} else {
+							mongolian += AscToMsMongol(c);
+						}
+					} else {
+						mongolian += AscToMsMongol(c);
+					}
+				}
+			} else {
+				mongolian += AscToMsMongol(c);
+			}
+			//mongolian += AscToMsMongol(latin.charAt(i));
+			prev = c;
+		}// end for
+		}
+		
+		//alert(mongolian);
+
+		//document.getElementById("txtMongolian").SetUnicodeText(mongolian);
+		return mongolian;
+	}
+	=================
+
+
+
+
+
+function showBirthday(val) 
+{ 
+var birthdayValue; 
+if(15==val.length) 
+{ //15位身份证号码 
+	birthdayValue = val.charAt(6)+val.charAt(7); 
+	if(parseInt(birthdayValue)<10) 
+	{ 
+		birthdayValue = '20'+birthdayValue; 
+	} 
+	else 
+	{ 
+		birthdayValue = '19'+birthdayValue; 
+	} 
+	birthdayValue=birthdayValue+'-'+val.charAt(8)+val.charAt(9)+'-'+val.charAt(10)+val.charAt(11); 
+	if(parseInt(val.charAt(14)/2)*2!=val.charAt(14)) 
+		document.all.sex.value='男'; 
+	else 
+		document.all.sex.value='女'; 
+	document.all.birthday.value=birthdayValue; 
+} 
+if(18==val.length) 
+{ //18位身份证号码 
+	birthdayValue=val.charAt(6)+val.charAt(7)+val.charAt(8)+val.charAt(9)+'-'+val.charAt(10)+val.charAt(11)+'-'+val.charAt(12)+val.charAt(13); 
+	if(parseInt(val.charAt(16)/2)*2!=val.charAt(16)) 
+	document.all.sex.value='男'; 
+	else 
+	document.all.sex.value='女'; 
+if(val.charAt(17)!=IDCard(val)) 
+{ 
+document.all.idCard.style.backgroundColor='#ffc8c8'; 
+} 
+else 
+{ 
+document.all.idCard.style.backgroundColor='white'; 
+} 
+document.all.birthday.value=birthdayValue; 
+} 
+} 
+
+Access 2007 修复和压缩数据库功能，点击 Office 2007 图标，功能 -> 压缩和修复数据库，执行即可。
+菜单/管理/压缩和修复数据库/
+
+
+词典界面修改意见：
+
+1、正式界面不再使用test1-00的登录户名，用户需注册后才能进行相关操作。因此，在管理员那里需添加一个提示管理员立刻对角色进行批准的功能。
+2、在说明书中增加注册、登录、操作等功能的详细说明。胡工程师先写一遍说明书再交给那老师进行修改。
+3、界面中，名词“蒙文”改为“蒙古文”。如，“西里尔蒙文”改为“西里尔蒙古文”；“蒙文拉丁转写”改为“蒙古文拉丁转写”等。
+4、在录入界面中“增加新词条”功能的“中文”和“词条来源”框中无法录入词语，这个需要改。
+5、已提交的25部词典要直接导入到编辑界面，编辑人员直接从这25部词典中申请数据包。编辑界面中，词条的拼音、英文、日文字段尽可能填满后自动保存到后台的数据库当中。
+6、“保存”按钮的完善。用户按保存按钮后保存词条的同时应自动转到下一条词条，以免用户每次都按一个“下一条”，有点太繁琐。
+
+
+
+DELETE FROM ApproveItems
+DELETE FROM ApprovePackage
+
+DELETE FROM ReviseItems
+DELETE FROM RevisePackage
+
+DELETE FROM EditItems
+DELETE FROM EditPackage
+
+DELETE FROM DictionaryA
+
+
+http://ulhoo.com/blog/?p=285
+
+var pattern = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/i;
+var   txt1=document.getElementByIdx('txt').value; //取得需要验证的输入框里值
+     var pattern = /[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/i;  //中文简体及繁体unicode码范围
+     if(pattern.test(txt1)){ //正则表达式模式匹配，返回true，则输入的中文字符
+
+    //也可以pattern.exec(txt1),或txt1.match(pattern)来验证
+
+ 
+         alert("请输入中文字符以外其他字符！");   
+         return false;
+   }
+   
+ var testText = $("#txtDetailInfo").val();
+3             var textlength = testText.replace(/[^\x00-\xff]/g, "NB").length;
+4             if (textlength>500) {
+5                 alert("输入的字符过长，超过500！本次输入的字符长为：" + textlength);
+6             } 
+   
+for(var i = 0; i < str.length; i++) { 
+if(str.charAt(i).match(/[u0391-uFFE5]/)) { 
+s += 2; 
+}
+<div style="margin-top:150px; margin-left:100px; position: relative; top:-60px; ">
+        <span>[录入人员：test1 &nbsp;密码：00] &nbsp;&nbsp;</span>
+        <span>[编辑人员：test2 &nbsp;密码：00] &nbsp;&nbsp;</span>
+        <span>[系统管理员：admin &nbsp;密码：admin] &nbsp;&nbsp;</span>
+        </div>
+        
+<div style="margin-top:40px;">
+	<div>此内容正式使用要删除：<a href="../../login.htm" >请以管理员登录</a></div>
+	</div>        
+
+
+2013-03-20
+字典有重复分类的，重复词条才会比较多（计算机、地理学、体育学、法律学，这四个类别重复词条多），
+
+<div class="control-group">
+            <label class="control-label">单选钮</label>
+            <div class="controls">
+              <label class="radio">
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked><span>第一个选项，最好给出将其做为首选的理由</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"><span>第二个选项，如果选译该选项就会取消第一个选项。</span>
+              </label>
+            </div>
+          </div>
+          
+
+echo 'var s='.$_SESSION["RoleId"].';';
+
+2013-03-18
+
+
+
+1：词条来源。
+除了25部领域字典，还有哪些来源，来源的具体名称是什么。
+2：词条类别。最好有一个词条分类的列表，25部领域词典的词条和征集来的词条分类要一致。
+3：下一步放到公网上的开放平台仅仅支持词条录入功能吗？
+4：审定时，是仅仅审定重复的词条，还是所有词条？或者分开处理，重复的进行选择，不重复的进行否决或者通过，甚至删除，对否决的再次进行修改。 
+
+那教授，词典管理平台开发中还有几个疑问：
+1、系统角色。
+除了目前的几个角色，可能还会有哪些角色？ 如征集部、审定委员会、领导小组和社会大众等，系统中是否提供角色支持（主要是区分不同权限）？
+2、词条来源。
+除了25部领域字典，还有哪些来源，来源的具体名称是什么？
+3、词条分类
+能否提供一个词条分类？当然目前是按照25部领域字典分类的，这个应该是词条分类的子集。我们需要完整的词条分类。
+4、词条审定
+审定的过程是怎样的？审定时应该不会再考虑词条来源了，应该是考虑词条类别吧，按照词条类别进行申请数据包进行审定？
+审定时，当前词条如果有重复词条，就选一项，并可以进行修改，没有重复词条，允许修改？
+
+alter system set nls_language='SIMPLIFIED CHINESE'   scope = spfile;
+alter system set nls_territory='CHINA'  scope=spfile;
+alter system set nls_sort='SCHINESE_PINYIN_M' scope=spfile;
+
+
+TopicId, UserId, Title, FullText, LastPostUserId, LastPostText, LastPostDate, DateCreated, Status
+
+PostId, TopicId, UserId, Title, FullText, DateCreated, Status
+
+<button id="btn1">读取</button>
+<button id="btn2">设置</button>
+<button id="btn3">删除</button>
+
+	
+$("#btn1").click(function(){
+	console.log($.cookie("currentPackageId"));
+	console.log($.cookie("abcdName"));
+});
+$("#btn2").click(function(){
+	console.log($.cookie("abcdName","abcd的值", { expires:1}));// {path:"/", expires:1}
+	console.log($.cookie("abcdName"));
+});
+$("#btn3").click(function(){
+	$.removeCookie("abcdName");
+	console.log($.cookie("abcdName"));
+});
+
+<?php if(isset($_COOKIE['currentPackageId'])){ echo $_COOKIE['currentPackageId'];} else {echo 1;}  ?>;
+
+
+/*
+				$log = new FileHelper();
+				$log->file = "log.txt";
+				$log->writeline(PHP_EOL .'========' . date("Y-m-d H:i:s"). PHP_EOL. $sqlArray[$i]);
+*/
+
+		/*
+		$log = new FileHelper();
+		$log->file = "log.txt";
+		$log->writeline(PHP_EOL .'========' . date("Y-m-d H:i:s"). PHP_EOL.  $sql1.PHP_EOL.  $sql2.PHP_EOL.  $sql3.PHP_EOL.  $sql4.PHP_EOL.  $sql5);
+		*/
+		
+
+SQL> alter table corp_month_charge rename column end_utc to end_date;
+Table altered.
+
+SQL>  alter table corp_month_charge rename column open_charge to reg_charge;
+Table altered.
+
+SQL> alter table corp_month_charge modify (end_date DATE);
+SQL> alter table corp_month_charge modify (end_date DATE);
+Table altered.
+
+SQL>  alter table corp_month_charge modify (begin_date  DATE);
+Table altered.
+
+SQL>
+而且好像number to date由oracle自动转化
+
+alter table test rename column zz to xx;
+
+alter table Logs rename column MoudleId to ModuleId;
+
+
+
+
+2012-02-05
+
+$log = new FileHelper();
+$log->file = "log.txt";
+$log->writeline(PHP_EOL .'========' . date("Y-m-d H:i:s"). PHP_EOL.  $sql1.$sql2);
+		
+		
+
+$log = new FileHelper ();
+$log->file = dirname ( dirname ( dirname ( __FILE__ ) ) ) . "\\doc\\log.txt";
+$log->writeline ( PHP_EOL . '========' . date ( "Y-m-d H:i:s" ) . PHP_EOL . $sql1. RevisePackageDao::SelectCurrentPackageId .$sql2 . $sql3);
+			
+			
+
+, ModuleId number(3,0) default (0) NOT NULL
+, OperationName VARCHAR2(255)
+alter table Logs add (ModuleId number(3,0) default (0) NOT NULL);
+alter table Logs add (OperationName VARCHAR2(255));
+
+alter table Logs add ( ObjectId NUMBER(10) default (0) NOT NULL)
+alter table Logs add (OperationId NUMBER(5) default (0) NOT NULL)
+2013-02-04
+LogId, UserId, CategoryId, ContentText, IPAddress, CreateDate, Status, Description FROM Logs
+
+LogId "LogId", UserId "UserId", CategoryId "CategoryId", ContentText "ContentText", IPAddress "IPAddress", CreateDate "CreateDate", Status "Status", Description "Description", 
+-- USER SQL
+CREATE USER MDict01 IDENTIFIED BY hg 
+DEFAULT TABLESPACE "USERS"
+TEMPORARY TABLESPACE "TEMP";
+
+-- ROLES
+GRANT "RESOURCE" TO MDict01 ;
+GRANT "CONNECT" TO MDict01 ;
+ALTER USER MDict01 DEFAULT ROLE "RESOURCE","CONNECT";
+
+-- SYSTEM PRIVILEGES
+GRANT DROP ANY TRIGGER TO MDict01 ;
+GRANT ALTER ANY SEQUENCE TO MDict01 ;
+GRANT ALTER ANY LIBRARY TO MDict01 ;
+GRANT UPDATE ANY TABLE TO MDict01 ;
+GRANT CREATE TRIGGER TO MDict01 ;
+GRANT CREATE TABLESPACE TO MDict01 ;
+GRANT CREATE SEQUENCE TO MDict01 ;
+GRANT SELECT ANY SEQUENCE TO MDict01 ;
+GRANT EXECUTE ANY TYPE TO MDict01 ;
+GRANT CREATE ANY DIRECTORY TO MDict01 ;
+GRANT CREATE TABLE TO MDict01 ;
+GRANT CREATE ANY INDEX TO MDict01 ;
+GRANT SELECT ANY TABLE TO MDict01 ;
+GRANT CREATE ANY PROCEDURE TO MDict01 ;
+GRANT DROP ANY INDEXTYPE TO MDict01 ;
+GRANT EXECUTE ANY CLASS TO MDict01 ;
+GRANT SELECT ANY TRANSACTION TO MDict01 ;
+GRANT INSERT ANY TABLE TO MDict01 ;
+GRANT CREATE LIBRARY TO MDict01 ;
+GRANT CREATE JOB TO MDict01 ;
+GRANT ALTER ANY RULE TO MDict01 ;
+GRANT CREATE ANY LIBRARY TO MDict01 ;
+GRANT CREATE ANY SEQUENCE TO MDict01 ;
+GRANT DROP PUBLIC SYNONYM TO MDict01 ;
+GRANT CREATE CLUSTER TO MDict01 ;
+GRANT EXECUTE ANY INDEXTYPE TO MDict01 ;
+GRANT DROP ANY TYPE TO MDict01 ;
+GRANT CREATE ANY DIMENSION TO MDict01 ;
+GRANT CREATE ANY RULE TO MDict01 ;
+GRANT CREATE RULE TO MDict01 ;
+GRANT CREATE ANY VIEW TO MDict01 ;
+GRANT CREATE PROCEDURE TO MDict01 ;
+GRANT ALTER ANY TYPE TO MDict01 ;
+GRANT CREATE ANY TRIGGER TO MDict01 ;
+GRANT DROP ANY RULE TO MDict01 ;
+GRANT CREATE ROLLBACK SEGMENT TO MDict01 ;
+GRANT ALTER ANY RULE SET TO MDict01 ;
+GRANT DROP ANY SEQUENCE TO MDict01 ;
+GRANT DROP ANY TABLE TO MDict01 ;
+GRANT EXECUTE ANY RULE TO MDict01 ;
+GRANT DROP ANY LIBRARY TO MDict01 ;
+GRANT EXECUTE ANY PROCEDURE TO MDict01 ;
+GRANT DROP ANY VIEW TO MDict01 ;
+GRANT CREATE ANY JOB TO MDict01 ;
+GRANT DROP ANY CLUSTER TO MDict01 ;
+GRANT CREATE ANY INDEXTYPE TO MDict01 ;
+GRANT EXECUTE ANY PROGRAM TO MDict01 ;
+GRANT ALTER DATABASE LINK TO MDict01 ;
+GRANT ALTER ANY PROCEDURE TO MDict01 ;
+GRANT CREATE ANY EVALUATION CONTEXT TO MDict01 ;
+GRANT ALTER ANY ROLE TO MDict01 ;
+GRANT EXECUTE ANY RULE SET TO MDict01 ;
+GRANT ALTER ANY TRIGGER TO MDict01 ;
+GRANT UNDER ANY TABLE TO MDict01 ;
+GRANT BACKUP ANY TABLE TO MDict01 ;
+GRANT CREATE SYNONYM TO MDict01 ;
+GRANT ALTER DATABASE TO MDict01 ;
+GRANT ALTER ANY TABLE TO MDict01 ;
+GRANT CREATE VIEW TO MDict01 ;
+GRANT EXECUTE ANY LIBRARY TO MDict01 ;
+GRANT CREATE RULE SET TO MDict01 ;
+GRANT CREATE ANY CLUSTER TO MDict01 ;
+GRANT DROP ANY INDEX TO MDict01 ;
+GRANT CREATE TYPE TO MDict01 ;
+GRANT ALTER ANY CLUSTER TO MDict01 ;
+GRANT ALTER ANY INDEX TO MDict01 ;
+GRANT CREATE ANY RULE SET TO MDict01 ;
+GRANT CREATE ROLE TO MDict01 ;
+GRANT DROP ANY PROCEDURE TO MDict01 ;
+GRANT CREATE ANY CONTEXT TO MDict01 ;
+GRANT CREATE ANY SYNONYM TO MDict01 ;
+GRANT CREATE ANY TABLE TO MDict01 ;
+GRANT CREATE SESSION TO MDict01 ;
+GRANT EXPORT FULL DATABASE TO MDict01 ;
+GRANT CREATE PUBLIC DATABASE LINK TO MDict01 ;
+GRANT UNLIMITED TABLESPACE TO MDict01 ;
+GRANT UNDER ANY VIEW TO MDict01 ;
+GRANT ALTER ANY INDEXTYPE TO MDict01 ;
+GRANT DROP ANY MATERIALIZED VIEW TO MDict01 ;
+GRANT CREATE INDEXTYPE TO MDict01 ;
+GRANT DROP ANY SYNONYM TO MDict01 ;
+GRANT CREATE MATERIALIZED VIEW TO MDict01 ;
+GRANT DROP ANY RULE SET TO MDict01 ;
+GRANT DROP TABLESPACE TO MDict01 ;
+GRANT SELECT ANY DICTIONARY TO MDict01 ;
+GRANT IMPORT FULL DATABASE TO MDict01 ;
+GRANT DELETE ANY TABLE TO MDict01 ;
+GRANT ALTER ANY MATERIALIZED VIEW TO MDict01 ;
+GRANT DEBUG ANY PROCEDURE TO MDict01 ;
+GRANT UNDER ANY TYPE TO MDict01 ;
+GRANT ALTER ANY DIMENSION TO MDict01 ;
+GRANT CREATE ANY TYPE TO MDict01 ;
+GRANT DROP PUBLIC DATABASE LINK TO MDict01 ;
+GRANT CREATE DATABASE LINK TO MDict01 ;
+GRANT ALTER SESSION TO MDict01 ;
+
+-- QUOTAS
+ALTER USER MDict01 QUOTA UNLIMITED ON USERS;
+
+
+
+2013-01-28
+SELECT  COUNT(ItemId) FROM ReviseItems WHERE PackageId = {@PackageId}  AND Status > {@Status1} AND Status < {@Status2} {@where}
+SELECT  COUNT(ItemId) FROM ReviseItems WHERE PackageId = {@PackageId}  AND Status = {@Status} {@where}
+SELECT  COUNT(ItemId) FROM ReviseItems WHERE PackageId = {@PackageId}  AND Status = {@Status} {@where}
+
+UPDATE RevisePackage SET Status = {@NewStatus} WHERE  PackageId = {@PackageId} AND Status = {@OldStatus}
+
+UPDATE ReviseItems SET Status = {@Status}, ModifiedDate = sysdate WHERE PackageId = {@PackageId} AND WordId IN (SELECT WordId FROM ReviseItems WHERE PackageId = {@PackageId}  AND Status = {@Status} )
+UPDATE ReviseItems SET Status = {@Status}, ModifiedDate = sysdate WHERE PackageId = {@PackageId} AND WordId IN (SELECT WordId FROM ReviseItems WHERE PackageId = {@PackageId}  AND Status = {@Status} )
+
+UPDATE ReviseItems SET Status = {@NewStatus}, ModifiedDate = sysdate WHERE PackageId = {@PackageId} AND Status = {@OldStatus}
+
+
+UPDATE DictionaryA SET Status = {@NewStatus} WHERE Status = {@OldStatus} AND WordId IN (SELECT WordId FROM ReviseItems WHERE PackageId = {@PackageId} AND Status = {@ItemStatus} )
+
+ WordCategory number(3,0) default (101) NOT NULL
+ alter table Users add (WordCategory number(3,0) default (101) NOT NULL);
+ 
+  if (typeof(nextFrame) === "undefined" || nextFrame === null) {
+        return;
+}
+Object.__typeName = 'Object';
+Object.__class = true;
+
+Object.getType = function Object$getType(instance) {
+    /// <summary locid="M:J#Object.getType" />
+    /// <param name="instance"></param>
+    /// <returns type="Type"></returns>
+    var e = Function._validateParams(arguments, [
+        {name: "instance"}
+    ]);
+    if (e) throw e;
+    var ctor = instance.constructor;
+    if (!ctor || (typeof(ctor) !== "function") || !ctor.__typeName || (ctor.__typeName === 'Object')) {
+        return Object;
+    }
+    return ctor;
+}
+
+1：词条来源。除了25部领域字典，还有哪些来源，来源的具体名称是什么。
+2：词条类别。最好有一个词条分类的列表，25部领域词典的词条和征集来的词条分类要一致。
+3：下一步放到公网上的开放平台仅仅支持词条录入功能吗？
+4：审定时，是仅仅审定重复的词条，还是所有词条？或者分开处理，重复的进行选择，不重复的进行否决或者通过，甚至删除，对否决的再次进行修改。 
+
+2013-01-21
+MDictTempDB
+hg
+
+
+
+-- USER SQL
+CREATE USER MDictTempDB IDENTIFIED BY hg 
+DEFAULT TABLESPACE "USERS"
+TEMPORARY TABLESPACE "TEMP";
+
+-- ROLES
+GRANT "RESOURCE" TO MDictTempDB ;
+GRANT "CONNECT" TO MDictTempDB ;
+ALTER USER MDictTempDB DEFAULT ROLE "RESOURCE","CONNECT";
+
+-- SYSTEM PRIVILEGES
+
+-- QUOTAS
+1.通过alter system set nls_language='AMERICAN' scope=spfile; 可以更改nls_database_parameters和nls_instance_parameters的nls_language
+2.通过alter session set nls_language='SIMPLIFIED CHINESE'; 可以更改nls_session_parameters的nls_language
+ shutdown immediate;
+ startup
+ ALTER DATABASE CHARACTER SET ZHS16GBK;
+ 
+ 1、查看nls_lang参数是否为静态参数
+issys_modifiable: 为false 则在系统级别修改的时候需要加上  scope=spfile  重启数据库后参数生效
+
+2、修改nls_language 参数
+alter system set nls_language='SIMPLIFIED CHINESE'   scope = spfile;
+alter system set nls_territory='CHINA'  scope=spfile;
+
+3、重启数据库查看nls_language参数
+shutdown immediate;
+startup mount;
+alter database open;
+ show parameter nls
+ 
+CREATE TABLE DictionaryA
+(
+  WordId NUMBER(10) NOT NULL
+, Chinese VARCHAR2(1023)
+, Pinyin VARCHAR2(1023)
+, Mongolian VARCHAR2(1023)
+, MongolianLatin VARCHAR2(1023)
+, MongolianCyrillic VARCHAR2(1023)
+, English VARCHAR2(1023)
+, Japanese VARCHAR2(1023)
+, Russian VARCHAR2(1023)
+, ChineseExampleSentence VARCHAR2(2048)
+, MongolianExampleSentence VARCHAR2(2048)
+, EnglishExampleSentence VARCHAR2(2048)
+, JapaneseExampleSentence VARCHAR2(2048)
+, RussianExampleSentence VARCHAR2(2048)
+, QueryCode VARCHAR2(63)
+, ExamineGroup number(3,0) NULL
+, OriginalCategory number(3,0) NOT NULL
+, WordCategory number(3,0) NOT NULL
+, SourceDictionary number(3,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, IsPublished number(1,0) default (0) NOT NULL
+, Description VARCHAR2(2048)
+, CreatedDate date default sysdate not null
+, CONSTRAINT DictionaryA_PK PRIMARY KEY  ( WordId )
+  ENABLE 
+);
+
+https://appharbor.com/applications/mdict
+
+http://www1.csres.com/sort/index.jsp?id=2
+
+select * from DictionaryA
+where WordId in (select  Min( WordId) from   DictionaryA group by   Chinese  having count(WordId) > 1)
+
+
+ALTER TABLE [体育术语词典]  ADD COLUMN SourceCategory
+ALTER TABLE [体育术语词典]  ADD COLUMN OriginalCategory
+ALTER TABLE [体育术语词典]  ADD COLUMN WordCategory
+
+update [体育术语词典] set SourceCategory = 10,OriginalCategory = 10,WordCategory = 10
+
+
+CREATE TABLE PE1
+(
+ Chinese VARCHAR2(511)
+, English VARCHAR2(511)
+, MongolianLatin VARCHAR2(511)
+, SourceDictionary number(3,0) NOT NULL
+, OriginalCategory number(3,0) default 10 NOT NULL
+, WordCategory number(3,0) default 10 NOT NULL
+  ENABLE 
+);
+
+
+ALTER TABLE 体育名词术语词典  ADD COLUMN SourceCategory Short DEFAULT 10
+ALTER TABLE Employees ADD COLUMN SourceCategory Short DEFAULT 10
+
+ALTER TABLE [体育术语词典]  ADD COLUMN SourceCategory Short
+
+update [体育术语词典] set SourceCategory = 10
+
+select * from 体育术语词典
+
+function c($str){
+	
+	$stringLength = strlen($str);
+	if($stringLength < 1) return '';
+	$ret="";
+	for($i=0;$i<$stringLength;$i++){
+		$p=ord(substr($str,$i,1));
+		if($p>160){
+			$q=ord(substr($str,++$i,1));
+			$p=$p*256+$q-65536;
+			$ret.=g($p);
+			if($i > 1 && $i < $stringLength - 1) {
+				$ret=' '.$ret;
+			}
+		} else {
+			$ret.=g($p);
+		}
+	}
+	return $ret;
+}
+
+DECLARE
+	last_PackageId NUMBER(10,0);
+BEGIN
+	INSERT INTO RevisePackage (PackageName, UserId) VALUES ('编辑测试用户的第1个编辑数据包', 23) RETURNING PackageId INTO last_PackageId;
+	INSERT INTO ReviseItems (PackageId, WordId)
+		SELECT last_PackageId, t.WordId FROM (SELECT  WordId FROM DictionaryA WHERE Status = 4 AND SourceDictionary = 12 ORDER BY  nlssort(Chinese,'NLS_SORT = SChinese_Pinyin_M')) t WHERE  rownum <= 500;
+	UPDATE DictionaryA SET Status = 6 WHERE WordId IN (SELECT WordId FROM ReviseItems WHERE PackageId = last_PackageId)
+END;
+
+
+2013-01-11
+SetUnicodeText(LPCTSTR sText) 设置文本
+BSTR GetUnicodeText(void) 获取文本
+SetMWFontName(LPCTSTR sFontName) 设置蒙文字体名称
+SetFontSize(LONG nFontSize) 设置字体大小
+目前就是这几个
+
+
+
+http://ip88.hgzp.cn/dict/
+
+SELECT * FROM ( SELECT t.*, rownum r FROM (
+SELECT p.PackageId  FROM RevisePackage p, ReviseItems i, Users u 
+WHERE u.Userid = p.Userid AND  p.PackageId = i.PackageId  
+AND u.UserId = 167
+AND  p.Status < 2 AND i.Status < 999 
+ORDER BY i.ModifiedDate DESC 
+) t WHERE rownum <= 1) B  WHERE r > 0
+
+
+
+2013-01-04
+
+CREATE TABLE DictionaryA
+(
+  WordId NUMBER(10) NOT NULL
+, Chinese VARCHAR2(511)
+, Pinyin VARCHAR2(511)
+, Mongolian VARCHAR2(511)
+, MongolianLatin VARCHAR2(511)
+, MongolianCyrillic VARCHAR2(511)
+, English VARCHAR2(511)
+, Japanese VARCHAR2(511)
+, ChineseExampleSentence VARCHAR2(2048)
+, MongolianExampleSentence VARCHAR2(2048)
+, EnglishExampleSentence VARCHAR2(2048)
+, JapaneseExampleSentence VARCHAR2(2048)
+, ExamineGroup number(3,0) NULL
+, OriginalCategory number(3,0) NOT NULL
+, WordCategory number(3,0) NOT NULL
+, SourceDictionary number(3,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, Description VARCHAR2(2048)
+, CreatedDate date default sysdate not null
+, CONSTRAINT DictionaryA_PK PRIMARY KEY  ( WordId )
+  ENABLE 
+);
+
+1、
+CREATE SEQUENCE DictionaryA_WordId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+2、
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_DictionaryA
+  BEFORE INSERT ON DictionaryA FOR EACH ROW
+BEGIN
+  SELECT DictionaryA_WordId.nextval INTO :new.WordId FROM dual;
+END;
+
+
+startColorstr='#fff5f5f5',endColorstr='#fff9f9f9',GradientType=0
+startColorstr='#ff149bdf',endColorstr='#ff0480be',GradientType=0
+
+http://www.mongolfont.com/mn/new/todotoli.html
+几个表及其字段列表：
+EditPackage
+EditItems
+RevisePackage
+ReviseItems
+ApprovePackage
+ApproveItems
+
+PackageId, PackageName, UserId, Status, CreateDate 
+
+ItemId, PackageId, WordId, Status, CreateDate, ModifiedDate
+
+UserID, UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, 
+Mobile, Telephone, Company, Email, QQ, CreateDate, IsApproved, Description FROM Users
+
+可执行sql文本之一：
+SELECT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", Mongolian "Mongolian", MongolianLatin "MongolianLatin", MongolianCyrillic "MongolianCyrillic", English "English", Japanese "Japanese", ChineseExampleSentence "ChineseExampleSentence", MongolianExampleSentence "MongolianExampleSentence", EnglishExampleSentence "EnglishExampleSentence", JapaneseExampleSentence "JapaneseExampleSentence", ExamineGroup "ExamineGroup", OriginalCategory "OriginalCategory", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", Description "Description", to_char(CreatedDate,'yyyy-mm-dd hh24:mi:ss') "CreatedDate" FROM (
+SELECT rownum as rn, t.* FROM (
+SELECT WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate FROM DictionaryA  ORDER BY WordId) t
+) WHERE rn >=21 and rn <= 40;
+
+
+SELECT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", Mongolian "Mongolian", MongolianLatin "MongolianLatin", MongolianCyrillic "MongolianCyrillic", English "English", Japanese "Japanese", ChineseExampleSentence "ChineseExampleSentence", MongolianExampleSentence "MongolianExampleSentence", EnglishExampleSentence "EnglishExampleSentence", JapaneseExampleSentence "JapaneseExampleSentence", ExamineGroup "ExamineGroup", OriginalCategory "OriginalCategory", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", Description "Description", to_char(CreatedDate,\'yyyy-mm-dd hh24:mi:ss\') "CreatedDate" FROM (
+SELECT rownum as rn, t.* FROM (
+SELECT WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate FROM DictionaryA {@Where} ORDER BY WordId) t
+) WHERE rn >=2 and rn <= 4;
+
+可执行sql文本之二：
+SELECT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", Mongolian "Mongolian", MongolianLatin "MongolianLatin", MongolianCyrillic "MongolianCyrillic", English "English", Japanese "Japanese", ChineseExampleSentence "ChineseExampleSentence", MongolianExampleSentence "MongolianExampleSentence", EnglishExampleSentence "EnglishExampleSentence", JapaneseExampleSentence "JapaneseExampleSentence", ExamineGroup "ExamineGroup", OriginalCategory "OriginalCategory", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", Description "Description", to_char(CreatedDate,'yyyy-mm-dd hh24:mi:ss') "CreatedDate" FROM (
+SELECT rownum rn, t.* FROM (
+SELECT WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate 
+FROM DictionaryA  
+ORDER BY WordId
+) t WHERE rownum <=40 ) t2 WHERE rn >= 21;
+
+
+
+SET DEFINE OFF
+
+--未能对行  34737  执行插入
+--行的位置 97 包含无效的括起字符数据或分隔符。
+--行 34,737
+INSERT INTO TEMPDICTIONARY (CHINESE, MONGOLIANLATIN, ENGLISH, ORIGINALCATEGORY, WORDCATEGORY, SOURCEDICTIONARY) VALUES ('多指令[流]多数据流',' 0LAN JIGABURITV[VRVSVL]0LAN dAYItA VRVSVL',' multiple-instruction [stream]??! "multiple-data ream, MIMD", "5", "5", "5"',NULL,NULL,NULL);
+
+多指令[流]多数据流
+
+SELECT WordId "WordId", Chinese "Chinese" FROM ( SELECT t.*, rownum r FROM (SELECT  WordId, Chinese FROM DictionaryA  Order BY WordId ASC
+                ) t WHERE rownum <= 136269) B  WHERE r > 136226
+                
+--select count(*) from      DictionaryA
+
+select * from users
+
+
+CREATE TABLE TempDictionary
+(
+  WordId NUMBER(10) NOT NULL
+, Chinese VARCHAR2(511)
+, Pinyin VARCHAR2(511)
+, Mongolian VARCHAR2(511)
+, MongolianLatin VARCHAR2(511)
+, MongolianCyrillic VARCHAR2(511)
+, English VARCHAR2(511)
+, Japanese VARCHAR2(511)
+, ChineseExampleSentence VARCHAR2(2048)
+, MongolianExampleSentence VARCHAR2(2048)
+, EnglishExampleSentence VARCHAR2(2048)
+, JapaneseExampleSentence VARCHAR2(2048)
+, ExamineGroup number(3,0) NULL
+, OriginalCategory number(3,0) NOT NULL
+, WordCategory number(3,0) NOT NULL
+, SourceDictionary number(3,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, Description VARCHAR2(2048)
+, CreatedDate date default sysdate not null
+, CONSTRAINT TempDictionary_PK PRIMARY KEY  ( WordId )
+  ENABLE 
+);
+
+
+CREATE SEQUENCE TempDictionary_WordId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_TempDictionary
+  BEFORE INSERT ON TempDictionary FOR EACH ROW
+BEGIN
+  SELECT TempDictionary_WordId.nextval INTO :new.WordId FROM dual;
+END;
+
+
+张东升(张东升) 2012年11月05日 13:19:56
+法律 9795  行
+逻辑 6370  行
+生态 23218  行
+心里 11467  行
+化学 22866  行
+计算机 9708
+生物 25397
+数学 16732
+物理 10677
+总共 136230
+
+ DELETE FROM DictionaryA WHERE WordId > 136230
+
+* 0未分配、1录入中、2录入完成、3编辑中、4编辑完成、5审核中、6审核完成、7公布、999已删除
+
+DECLARE
+	last_PackageId NUMBER(10,0);
+BEGIN
+	INSERT INTO RevisePackage (PackageName, UserId) VALUES ('{@PackageName}', {@UserId}) RETURNING PackageId INTO last_PackageId;
+	INSERT INTO ReviseItems (PackageId, WordId)
+		SELECT last_PackageId, t.WordId FROM (SELECT  WordId FROM DictionaryA WHERE Status = 0 AND SourceDictionary = '{@SourceDictionary}' ORDER BY  nlssort(Chinese,'NLS_SORT = SCHINESE_PINYIN_M')) t WHERE  rownum <= 500;
+	UPDATE DictionaryA SET Status = {@Status} WHERE WordId IN (SELECT WordId FROM ReviseItems WHERE PackageId = last_PackageId)
+END;
+
+<!-- 
+<script type="text/javascript">
+location = 'myrevisepackage.php';
+</script>
+ -->
+
+alter system set nls_sort = SCHINESE_STROKE_M scope=spfile;
+show parameter nls_sort 
+shutdown immediate
+startup
+
+http://download.oracle.com/otn/nt/oracle11g/xe/OracleXE112_Win32.zip
+
+
+SQL> SHUTDOWN IMMEDIATE
+数据库已经关闭。
+已经卸载数据库。
+ORACLE 例程已经关闭。
+SQL> STARTUP NOMOUNT
+
+alter system set nls_sort='SCHINESE_PINYIN_M' scope=spfile;
+
+select * from nls_database_parameters;
+select * from nls_session_parameters;  
+select * from V$NLS_PARAMETERS
+select * from v$parameter
+NLS_LANGUAGE	SIMPLIFIED CHINESE
+NLS_TERRITORY	CHINA
+NLS_CURRENCY	￥
+NLS_ISO_CURRENCY	CHINA
+NLS_NUMERIC_CHARACTERS	.,
+NLS_CALENDAR	GREGORIAN
+NLS_DATE_FORMAT	DD-MON-RR
+NLS_DATE_LANGUAGE	SIMPLIFIED CHINESE
+NLS_CHARACTERSET	AL32UTF8
+NLS_SORT	BINARY
+NLS_TIME_FORMAT	HH.MI.SSXFF AM
+NLS_TIMESTAMP_FORMAT	DD-MON-RR HH.MI.SSXFF AM
+NLS_TIME_TZ_FORMAT	HH.MI.SSXFF AM TZR
+NLS_TIMESTAMP_TZ_FORMAT	DD-MON-RR HH.MI.SSXFF AM TZR
+NLS_DUAL_CURRENCY	￥
+NLS_NCHAR_CHARACTERSET	AL16UTF16
+NLS_COMP	BINARY
+NLS_LENGTH_SEMANTICS	BYTE
+NLS_NCHAR_CONV_EXCP	FALSE
+
+SELECT {@CurrentValue}, WordId 
+FROM DictionaryA 
+
+ORDER BY CreatedDate
+
+SELECT {@CurrentValue}, t.WordId FROM 
+(SELECT WordId FROM DictionaryA 
+WHERE Status = 0 
+ORDER BY  nlssort(Chinese,'NLS_SORT = SCHINESE_PINYIN_M')) t
+WHERE  rownum <= 500;
+
+SELECT t.*, rownum r FROM 
+(SELECT  WordId, Chinese, SourceDictionary FROM DictionaryA 
+WHERE Status = 0 
+ORDER BY  nlssort(Chinese,'NLS_SORT = SCHINESE_PINYIN_M')) t
+WHERE rownum >=1 and  rownum <= 8000;
+
+
+
+ select   *   from   V$NLS_PARAMETERS    
+   select userenv('language') from dual;
+     
+    //按照笔划排序 
+    select * from dept order by nlssort(name,'NLS_SORT=SCHINESE_STROKE_M'); 
+    //按照部首排序 
+    select * from dept order by nlssort(name,'NLS_SORT=SCHINESE_RADICAL_M'); 
+    //按照拼音排序，此为系统的默认排序方式 
+    select * from dept order by nlssort(name,'NLS_SORT=SCHINESE_PINYIN_M'); 
+
+
+paging
+http://www.xarg.org/2011/09/jquery-pagination-revised/
+
+// $url_this = "'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+
+ Select e.PACKAGEID,
+       e.PACKAGENAME,
+       e.USERID,
+       e.STATUS,
+       e.CREATEDATE,
+       u.USERNAME
+  From EDITPACKAGE  e, USERS  u
+Where e.USERID = u.USERID;
+
+ 
+ Select e.PACKAGEID,
+       e.PACKAGENAME,
+       e.USERID,
+       e.STATUS,
+       e.CREATEDATE,
+       u.USERNAME
+  From EDITPACKAGE As e inner join USERS As u on e.USERID = u.USERID
+  
+  
+  
+  Select e.PACKAGEID "PackageId",
+       e.PACKAGENAME "PackageName",
+       e.USERID "UserId",
+       e.STATUS "Status",
+       e.CREATEDATE "CreateDate",
+       u.USERNAME "Username"
+  From EDITPACKAGE  e
+ Inner Join USERS  u
+    On e.USERID = u.USERID;
+    
+SELECT * FROM ( SELECT t.*, rownum r FROM (
+SELECT  WordId, Chinese FROM DictionaryA {@where} Order BY {@orderBy}) t
+WHERE rownum <= {@endRowIndex}) B  WHERE r > {@startRowIndex} 
+
+SELECT  WordId "WordId", Chinese "Chinese", r "RowIndex" FROM ( SELECT t.*, rownum r FROM (
+SELECT  WordId, Chinese FROM DictionaryA  Order BY CreatedDate) t
+WHERE rownum <= 20) B  WHERE r > 0
+
+SELECT  PACKAGEID "PackageId", PACKAGENAME "PackageName", USERID "UserId", STATUS "Status", CREATEDATE "CreateDate", USERNAME "Username" FROM ( SELECT t.*, rownum r FROM (
+SELECT  e.PACKAGEID, e.PACKAGENAME, e.USERID, e.STATUS, e.CREATEDATE, u.USERNAME From EDITPACKAGE  e, USERS  u Where e.USERID = u.USERID  Order BY e.CreateDate) t
+WHERE rownum <= 20) B  WHERE r > 0
+
+
+
+
+exec seq_reset('EditPackage_PackageId');
+commit;
+
+alter table EditPackage modify Status number(3,0);
+alter table EditItems modify Status number(3,0);
+alter table RevisePackage modify Status number(3,0);
+alter table ReviseItems modify Status number(3,0);
+alter table ApprovePackage modify Status number(3,0);
+alter table ApproveItems modify Status number(3,0);
+
+alter table EditItems add (ModifiedDate date default sysdate not null);
+alter table ReviseItems add (ModifiedDate date default sysdate not null);
+alter table ApproveItems add (ModifiedDate date default sysdate not null);
+
+alter table  表名称 add (列名称 数据类型 [default 默认值] ,列名称 数据类型 [default 默认值] ,......);
+alter table a add(age varchar2(2) default '女');
+alter table  表名称 modify(列名称 数据类型 [default 默认值] ,列名称 数据类型 [default 默认值] ,......);
+alter table a modify(name varchar2(100) default '无名氏');
+
+12小时制格式：yyyy-mm-dd HH:MI:SS
+insert into test_table values(to_date('2010-7-29 03:12:32','yyyy-mm-dd HH:MI:SS'));
+
+24小时制格式：yyyy-mm-dd HH24:MI:SS
+insert into test_table  values(to_date('2010-7-29 15:22:33','yyyy-mm-dd HH24:MI:SS'));
+ 
+
+CREATE TABLE ApprovePackage
+(
+  PackageId NUMBER(10,0) NOT NULL
+, PackageName VARCHAR2(127)
+, UserId NUMBER(10,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, CreateDate date default sysdate not null
+, CONSTRAINT ApprovePackage_PK PRIMARY KEY  ( PackageId )
+  ENABLE 
+);
+
+CREATE TABLE ApproveItems
+(
+  ItemId NUMBER(10,0) NOT NULL
+, PackageId NUMBER(10,0) NOT NULL
+, WordId NUMBER(10) NOT NULL
+, CreateDate date default sysdate not null
+, ModifiedDate date default sysdate not null
+, Status number(3,0) default (0) NOT NULL
+, CONSTRAINT ApproveItems_PK PRIMARY KEY  ( ItemId )
+  ENABLE 
+);
+
+CREATE SEQUENCE ApprovePackage_PackageId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_ApprovePackage
+  BEFORE INSERT ON ApprovePackage FOR EACH ROW
+BEGIN
+  SELECT ApprovePackage_PackageId.nextval INTO :new.PackageId FROM dual;
+END;
+
+CREATE SEQUENCE ApproveItem_Id INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_ApproveItems
+  BEFORE INSERT ON ApproveItems FOR EACH ROW
+BEGIN
+  SELECT ApproveItem_Id.nextval INTO :new.ItemId FROM dual;
+END;
+
+
+CREATE TABLE RevisePackage
+(
+  PackageId NUMBER(10,0) NOT NULL
+, PackageName VARCHAR2(127)
+, UserId NUMBER(10,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, CreateDate date default sysdate not null
+, CONSTRAINT RevisePackage_PK PRIMARY KEY  ( PackageId )
+  ENABLE 
+);
+
+CREATE TABLE ReviseItems
+(
+  ItemId NUMBER(10,0) NOT NULL
+, PackageId NUMBER(10,0) NOT NULL
+, WordId NUMBER(10) NOT NULL
+, CreateDate date default sysdate not null
+, ModifiedDate date default sysdate not null
+, Status number(3,0) default (0) NOT NULL
+, CONSTRAINT ReviseItems_PK PRIMARY KEY  ( ItemId )
+  ENABLE 
+);
+
+CREATE SEQUENCE RevisePackage_PackageId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_RevisePackage
+  BEFORE INSERT ON RevisePackage FOR EACH ROW
+BEGIN
+  SELECT RevisePackage_PackageId.nextval INTO :new.PackageId FROM dual;
+END;
+
+CREATE SEQUENCE ReviseItem_Id INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_ReviseItems
+  BEFORE INSERT ON ReviseItems FOR EACH ROW
+BEGIN
+  SELECT ReviseItem_Id.nextval INTO :new.ItemId FROM dual;
+END;
+
+
+
+CREATE TABLE EditPackage
+(
+  PackageId NUMBER(10,0) NOT NULL
+, PackageName VARCHAR2(127)
+, UserId NUMBER(10,0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, CreateDate date default sysdate not null
+
+, CONSTRAINT EditPackage_PK PRIMARY KEY  ( PackageId )
+  ENABLE 
+);
+
+CREATE TABLE EditItems
+(
+  ItemId NUMBER(10,0) NOT NULL
+, PackageId NUMBER(10,0) NOT NULL
+, WordId NUMBER(10) NOT NULL
+, CreateDate date default sysdate not null
+, ModifiedDate date default sysdate not null
+, Status number(3,0) default (0) NOT NULL
+, CONSTRAINT EditItems_PK PRIMARY KEY  ( ItemId )
+  ENABLE 
+);
+
+CREATE SEQUENCE EditPackage_PackageId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_EditPackage
+  BEFORE INSERT ON "EditPackage" FOR EACH ROW
+BEGIN
+  SELECT EditPackage_PackageId.nextval INTO :new.PackageId FROM dual;
+END;
+
+CREATE SEQUENCE EditItem_Id INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER Before_Insert_EditItems
+  BEFORE INSERT ON "EditItems" FOR EACH ROW
+BEGIN
+  SELECT EditItem_Id.nextval INTO :new.ItemId FROM dual;
+END;
+
+
+DictionaryA_Chinese
+CREATE INDEX DICTIONARYA_CHINESE ON DICTIONARYA (CHINESE);
+
+　INSERT INTO emp VALUES
+　　(empseq.nextval, LEWIS, CLERK,7902, SYSDATE, 1200, NULL, 20);
+　　SELECT empseq.currval FROM DUAL;
+
+2012-12-06
+F:\Projects\MDict
+
+
+2012-10-22
+-- 更新数据库，添加用户角色字段，为了简单起见，目前仅仅支持用户具有一个角色，给用户表添加一个字段即可。
+-- 可以设置多种角色，目前可以有 0：超级管理员、 1：管理员、 2：普通用户。
+-- 添加用户时默认值为2，是普通用户。
+alter table dic.tbaseusers add column RoleId int default 2 after bEffective;
+update  dic.tbaseusers set RoleId = 0 where ID = 2; -- 此用户改为超级管理员。
+
+2012-10-31
+[PHP_ORACLE]
+extension=php_oci8_11g.dll  ; Use with Oracle 11gR2 Instant Client
+ oci_connect oci_fetch_array
+ 
+ 
+ 2012-12-05
+ SET DEFINE OFF
+
+ 手工执行这4条语句。
+ SET DEFINE OFF
+SET DEFINE OFF
+INSERT INTO ORIGINALDATA (WORDID, CHINESE, ENGLISH, MONGOLIANLATIN, WORDSOURCE) VALUES (39888.0,'多指令[流]多数据流','multiple-instruction [stream] multiple-data ream, MIMD','0LAN JIGABURITV[VRVSVL]0LAN dAYItA VRVSVL','计算机名词术语');
+--未能对行  45565  执行插入
+--行的位置 68 包含无效的括起字符数据或分隔符。
+--行 45,565
+INSERT INTO ORIGINALDATA (WORDID, CHINESE, ENGLISH, MONGOLIANLATIN, WORDSOURCE) VALUES (45652.0,'n 个词项的有效式和各格的数目','number of valid moods and figures for “n” terms','“n” NERELEL-VN HUCUEDU GELBERI BVLUA EL_A VRUA-U TVG_A','逻辑学名词术语词典');
+--未能对行  46297  执行插入
+--行的位置 28 包含无效的括起字符数据或分隔符。
+--行 46,297
+INSERT INTO ORIGINALDATA (WORDID, CHINESE, ENGLISH, MONGOLIANLATIN, WORDSOURCE) VALUES (46433.0,'逻辑“或”','logical “or”','LVHIH-VN 《 ESEHUL_A 》','逻辑学名词术语词典');
+--未能对行  46298  执行插入
+--行的位置 28 包含无效的括起字符数据或分隔符。
+--行 46,298
+INSERT INTO ORIGINALDATA (WORDID, CHINESE, ENGLISH, MONGOLIANLATIN, WORDSOURCE) VALUES (46434.0,'逻辑“与”','logical "and"','LVHIH-VN 《 BVLUA 》','逻辑学名词术语词典');
+ 
+ 
+  教育出版社的《汉英蒙对照科学技术名词术语系列词典》之计算机术语词典、生物术语词典、数学术语词典、物理术语词典、化学术语词典五部词典。
+　　　　校对完之后的词条：
+   词典	条目
+生物	25397
+化学	22862
+数学	16732
+物理	10677
+计算机	9708
+                       
+　　　　　　　　              共：85376词条
+
+1、
+CREATE SEQUENCE OriginalData_WordId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+2、
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_OriginalData
+  BEFORE INSERT ON "OriginalData" FOR EACH ROW
+BEGIN
+  SELECT OriginalData_WordId.nextval INTO :new.WordId FROM dual;
+END;
+3、
+// 
+   CREATE SEQUENCE  "HG"."ORIGINALDATA_WORDID"  MINVALUE 1 MAXVALUE 999999999 INCREMENT BY 1 START WITH 136241 CACHE 20 NOORDER  NOCYCLE ;
+
+2147483648
+4294967296
+
+9i 的数据类型: 
+名称 含义 
+Char 用于描述定长的字符型数据，长度<= 2000 字节 
+varchar2 用于描述变长的字符型数据，长度<= 4000 字节 
+nchar 用来存储Unicode字符集的定长字符型数据，长度<= 1000 字节 
+nvarchar2 用来存储Unicode字符集的变长字符型数据，长度<= 1000 字节 
+number 用来存储整型或者浮点型数值 
+Date 用来存储日期数据 
+Long 用来存储最大长度为2GB的变长字符数据 
+Raw 用来存储非结构化数据的变长字符数据，长度<= 2000 字节 
+Long raw 用来存储非结构化数据的变长字符数据，长度<= 2GB 
+rowid 用来存储表中列的物理地址的二进制数据，占用固定的10个字节 
+Blob 用来存储多达4GB的非结构化的二进制数据 
+Clob 用来存储多达4GB的字符数据 
+nclob 用来存储多达4GB的Unicode字符数据 
+Bfile 用来把非结构化的二进制数据存储在数据库以外的操作系统文件中 
+urowid 用来存储表示任何类型列地址的二进制数据 
+float 用来存储浮点数 
+
+oracle没有布尔数据类型 
+
+常给出数位和精度 
+可以用CHAR(1)，0代表TRUE，1代表FALSE 
+
+用varchar2()，与CHAR类似 
+
+用number(1) ；0--false ,1--true就可以了。 
+
+布尔型，一般用char（1） －－Y 或者N，加个约束，免得插入错误 
+
+CREATE TABLE DictionaryA
+(
+  WordId NUMBER(10) NOT NULL
+, Chinese VARCHAR2(511)
+, Pinyin VARCHAR2(511)
+, Mongolian VARCHAR2(511)
+, MongolianLatin VARCHAR2(511)
+, MongolianCyrillic VARCHAR2(511)
+, English VARCHAR2(511)
+, Japanese VARCHAR2(511)
+, ChineseExampleSentence VARCHAR2(2048)
+, MongolianExampleSentence VARCHAR2(2048)
+, EnglishExampleSentence VARCHAR2(2048)
+, JapaneseExampleSentence VARCHAR2(2048)
+, ExamineGroup VARCHAR2(63) NOT NULL
+, OriginalCategory VARCHAR2(63) NOT NULL
+, WordCategory VARCHAR2(63) NOT NULL
+, SourceDictionary VARCHAR2(63) NOT NULL
+, Status VARCHAR2(63)
+, Description VARCHAR2(2048)
+, CreatedDate date default sysdate not null
+, CONSTRAINT DictionaryA_PK PRIMARY KEY  ( WORDID )
+  ENABLE 
+);
+
+SELECT  WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate 
+FROM DictionaryA
+
+  DictionaryA
+  WordId
+, Chinese
+, Pinyin
+, Mongolian
+, MongolianLatin
+, MongolianCyrillic
+, English
+, Japanese
+, ChineseExampleSentence
+, MongolianExampleSentence
+, EnglishExampleSentence
+, JapaneseExampleSentence
+, ExamineGroup
+, OriginalCategory
+, WordCategory
+, SourceDictionary
+, Status
+, Description
+, CreatedDate
+
+
+
+
+SELECT * FROM ( SELECT t.*, rownum r FROM
+　　(SELECT UserID, UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, Mobile, Telephone, Company, Email, QQ, CreateDate, IsApproved, Description FROM Users Order BY CreateDate DESC) t
+WHERE rownum <= 136235) B
+WHERE r > 136220;
+
+
+
+http://www.php.net/manual/zh/book.oci8.php
+
+CREATE TABLE Users
+(
+UserID
+, UserName
+, Password
+PasswordQuestion
+PasswordAnswer
+RealName
+Gender
+Birthday
+PINCodes
+Mobile
+Telephone
+Company
+Email
+QQ
+CreateDate
+IsApproved
+Description
+
+
+http://www.ruanyifeng.com/blog/2010/12/php_best_practices.html
+
+
+CREATE TABLE Users
+(
+  UserID NUMBER(10,0) NOT NULL
+, UserName VARCHAR2(127)
+, Password VARCHAR2(511)
+, PasswordQuestion VARCHAR2(127)
+, PasswordAnswer VARCHAR2(127)
+, RealName VARCHAR2(127)
+, Gender VARCHAR2(15)
+, Birthday  date default sysdate not null
+, PINCodes VARCHAR2(18)
+, Mobile VARCHAR2(22)
+, Telephone VARCHAR2(22)
+, Company VARCHAR2(127)
+, Email VARCHAR2(127)
+, QQ VARCHAR2(15)
+, CreateDate date default sysdate not null
+, IsApproved CHAR(1)
+, RoleId NUMBER(2,0) default (0) NOT NULL
+, Description VARCHAR2(1023)
+, CONSTRAINT Users_PK PRIMARY KEY  ( UserID )
+  ENABLE 
+);
+
+SELECT 
+UserID, UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, Mobile, Telephone, Company, Email, QQ, CreateDate, IsApproved, Description
+FROM Users
+
+
+
+SELECT * FROM ( SELECT t.*, rownum r FROM (SELECT UserID, UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, Mobile, Telephone, Company, Email, QQ, CreateDate, IsApproved, Description FROM Users Order BY CreateDate DESC) t WHERE rownum <= 136235) B  WHERE r > 136220;
+
+2012-11-08
+http://bootswatch.com/cerulean/
+http://bootswatch.com/
+
+select column_name "ColumnName",data_type "DataType"  from user_tab_columns where Table_Name='USERS'; 
+
+1、
+CREATE SEQUENCE Users_UserId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+2、
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_Users
+  BEFORE INSERT ON "Users" FOR EACH ROW
+BEGIN
+  SELECT Users_UserId.nextval INTO :new.UserId FROM dual;
+END;
+
+由于手机号段的不断更新，以前的正则表达式已经无法满足需求。重新编写这条表达式，号段资料来源依据：http://www.von-line.com/hao.htm
+
+?
+1
+2
+3
+var regex = {
+    mobile: /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/
+}
+表达式分析：
+“/”代表一个正则表达式。
+“^”代表字符串的开始位置，“$”代表字符串的结束位置。
+“?”代表匹配前面的字符一个或零个，所以这里0?的意思是手机号码可以以0开头或不以0开头。
+接下的部分验证11位的手机号码，先从13开始，因为从130-139都有所以可选区间是[0-9]，15开头的号码没有154所以[]里面没有4这个数字，当然也可以写成[0-35-9]，下面18和14开的号码同上。
+小括号括起来的代表一个子表达式，里面是4个可选分支分别用“|”来区分开来，在正则中“|”的优先级是最低的，这里每个分支匹配的都是3个字符（一个[]只能匹配一个字符，里面是可选的意思），也就是手机号码的前3位数字，那么后面还有8位数字需要匹配，可以是0-9的任意字符，所以是“[0-9]{8}”，{}中的数字代表匹配前面字符的个数。分析完毕。
+
+
+SELECT * FROM ( SELECT t.*, rownum r FROM (SELECT  WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate FROM DictionaryA Order BY WordId ASC) t WHERE rownum <= 136235) B WHERE r > 136220;
+
+<!-- value="<?php echo $user->Password;?>" -->
+
+PB120901001 汉蒙英日大词典项目
+
+http://www.hgzp.com.cn/xmgl/login

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>标题</title>
+	<!--
+	<link rel="stylesheet" href="http://static.jquery.com/files/rocker/css/reset.css" type="text/css" />
+	<link rel="stylesheet" href="http://static.jquery.com/files/rocker/css/screen.css" type="text/css" />
+	-->
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.8/jquery.min.js"></script>
+	<!--
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	-->
+	<script>!window.jQuery && document.write('<script src="http://code.jquery.com/jquery-1.8.0.min.js"><\/script>');</script>
+	<script type="text/javascript">
+	$(document).ready(
+	
+		function(){
+			
+			
+			//var str="WordId, Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, ChineseExampleSentence, MongolianExampleSentence, EnglishExampleSentence, JapaneseExampleSentence, ExamineGroup, OriginalCategory, WordCategory, SourceDictionary, Status, Description, CreatedDate";
+			//var str="Chinese, MongolianLatin, English, OriginalCategory, WordCategory, SourceDictionary";
+			//var str="LogId, UserId, CategoryId, ContentText, IPAddress, CreateDate, Status, Description";
+			//var str="UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, Mobile, Telephone, Company, Email, QQ, WordCategory, IsApproved, RoleId, Description";
+			//var str="Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, WordCategory, Status, Description";
+
+var str="TopicId, UserId, Title, FullText, LastPostUserId, LastPostText, LastPostDate, DateCreated, Status";
+//var str = "PostId, TopicId, UserId, Title, FullText, DateCreated, Status";
+var str = "专利, 交通, 信息学英语, 农业英语, 农牧林, 冶金, 化学, 化工, 地质, 建筑, 数学, 机械, 林业, 水利, 汽车, 物理, 环境, 电信, 电力, 电梯, 畜牧兽医, 石油, 纺织, 经贸, 能源, 航海, 航空, 船舶, 航道, 计算机, 通信网络, 造纸,";
+var str="WordId, Chinese, Pinyin, English, Japanese, QueryCode, POS, WordCategory, Status, LastModifiedDate";
+
+			var arr = str.split(",");
+			var s = "";
+			for(var i = 0; i < arr.length; i++){
+				var word = $.trim(arr[i]);
+				s += word + ' "' + word + '", ';// 别名
+				//s += "\\'{@" + word + "}\\', "; // insert 语句
+				//s += "$sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql );<br />"; // 创建时赋参数
+				//s += "if (isset ( $array ['" + word + "'] )) { $sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql ); }<br />"; // 创建时赋参数
+				// if (isset ( $array ['TopicId'] )) {
+				//s += "if($oldObj->" + word + " != $newObj['" + word + "']) $diff .= ('" + word + ":'.$oldObj->" + word + ".'=>'.$newObj['" + word + "'].',');<br />";
+				//s += word + ' "' + word + '", '; // select语句的列别名
+				//s+= word + " = \\'{@" + word + "}\\', ";// update语句
+				//s+="\\'{@" + word + "}\\', "; // insert 语句的参数列表
+				//s+="$sql = str_replace('{@" + word + "}\', $array['" + word + "'], $sql);" + "<br />"; // php中用数组值替换值，生成sql语句
+				//s += "$postData['" + word +  "'] = Encode($_POST['" + word +"']);" + "<br />"; // 提取客户端post的值，生成数组作为参数。
+
+				//s += '"'+ word +'": document.getElementById("'+word +'").value,<br />';
+				//s += "if(isset($_POST['"+word+"'])) $word['"+word+"'] = Encode($_POST['"+word+"']);<br />";
+				//s += '{"id":50' + (i < 10 ? ('0' + (i+1)): (i + 1) )+',"name":"'+ word + '"},<br />';
+
+			}
+			$("#main").html(s);
+
+
+	});
+	$(function(){
+		//$("#target").html("Hello World!");
+		$("#btn").click(function(){
+			
+			//var s = "select count(*) from [TableName];<br /><br />ALTER TABLE [TableName]  ADD COLUMN SourceDictionary Short;<br />ALTER TABLE [TableName]  ADD COLUMN OriginalCategory Short;<br />ALTER TABLE [TableName]  ADD COLUMN WordCategory Short;<br />ALTER TABLE [TableName]  ADD COLUMN Status Short;<br /><br />update [TableName] set SourceDictionary = index,OriginalCategory = index,WordCategory = index, Status = 0;<br />commit;<br/>select * from [TableName] order by 汉语";
+			//s = s.replace(/TableName/g, $("#tableName").val()); //
+			//s = s.replace(/index/g, $("#index").val()); //
+			
+			//$("#alertAccessTable").html(s);
+			
+		});
+		
+	});
+	</script>
+	<style type="text/css">
+
+	</style>
+</head>
+	<body>
+	<div>
+	<form method="post" action="">字典表名：
+	<input type="text" name="tableName" id="tableName">
+	字典序号:<input type="text" name="index" id="index">
+		<input type="button" id="btn" name="btn" value="sql" />
+	</form>
+		</div>
+		<div id="target"></div>
+		<div id="main"></div>
+		<div id="alertAccessTable"></div>
+		
+	</body>
+</html>

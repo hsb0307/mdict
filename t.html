@@ -1,0 +1,113 @@
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>jQuery UI Tabs - Content via Ajax</title>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <style type="text/css">
+div{width:40px;margin:10px;}
+</style>
+
+	
+	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+	<script>
+	$(function() {
+		var $tabs = $( "#tabs" ).tabs({
+			beforeLoad: function( event, ui ) {
+				ui.jqXHR.error(function() {
+					ui.panel.html(
+						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+						"If this wouldn't be a demo." );
+				});
+			}
+		});
+		
+		//
+		function addTab(lbl, href) {
+	        var $lis = $("#tabs").find("ul.ui-tabs-nav>li>a");
+	        var found_li = null, indx = 0;
+	        $lis.each(function (i, li) {
+	            var txt = $(li).text();
+	            if (txt == lbl) {
+	                //found=true;
+	                indx = i;
+	                found_li = li;
+	                return false;
+	            }
+	        });
+	        if (found_li) {
+	            $tabs.tabs({ active: indx });
+	            return;
+	        }
+	        $tabs.find("ul.ui-tabs-nav").append("<li><a href='" + href + "'>" + lbl + "</a><span class='ui-icon ui-icon-close'>Remove Tab</span></li>");
+
+	        var indx = $tabs.find("ul.ui-tabs-nav>li").length;
+	        //alert(indx)
+
+	        $tabs.tabs('refresh');
+	        $tabs.tabs({ active: indx - 1 });
+	    };
+	    
+	    $("#btnClear").click(function() {
+			//document.getElementById("txtSearch").value = "";
+			//$( "#txtSearch" ).val("").focus();
+	    	addTab("aaa", "test.php");
+		});
+	 // close icon: removing the tab on click
+        $("#tabs span.ui-icon-close").live("click", function () {
+            var panelId = $(this).closest("li").remove().attr("aria-controls");
+            $("#" + panelId).remove();
+            //ToDo: Clean up the grid (destroy).
+            $tabs.tabs("refresh");
+        });
+
+	});
+	
+	
+
+	
+	</script>
+</head>
+<body>
+
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Preloaded</a></li>
+		<li><a href="control/admin/dashboard.php">Tab 1</a></li>
+		<li><a href="control/task/myrevisepackage.php">Tab 2</a></li>
+		<li><a href="control/user/index.php">Tab 3 (slow)</a></li>
+		<li><a href="t.php">Tab 4 (broken)</a></li>
+	</ul>
+	<div id="tabs-1">
+		<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+		<div class="mongolian">
+			<div class="text-warning">dfasdf</div>
+			<div class="text-error">dfasdf</div>
+			<div class="text-info">dfasdf</div>
+			<div class="text-success">dfasdf</div>
+			<div>dfasdf</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+			<div>dfasdfᠠᠰᠳᠹᠠᠰᠳᠠᠰᠳᠹᠠᠰᠳᠹᠠᠰᠳᠹᠠ</div>
+		</div>
+	</div>
+</div>
+
+<a id="btnClear" href="javascript:void(0)">addTab</a>
+
+</body>
+</html>
+
