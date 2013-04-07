@@ -201,10 +201,8 @@ $(function () {
     	
     });
     */
-
-	$("#Chinese").on("blur", function(){
-		var searchText = document.getElementById("Chinese").value;
-		var words = $("#words");
+    function searchWord(searchText) {
+    	var words = $("#words");
 		words.html("");
 		words.hide();
 		var existWords = $("#existWords");
@@ -220,15 +218,35 @@ $(function () {
 			var refer = data.Refer;
 			var html ='';
 			if(refer && refer.length > 0) {
+				var sorted = refer;
+				if(refer.length > 1){
+					sorted = refer.slice(0).sort(function(a, b) {
+						if(a.English > b.English){
+							return 1;
+						} else if(a.English < b.English) { 
+						    return -1;;
+						} else {
+							return 0;
+						}
+					});
+				}
+				/*
 			for (var i = 0; i < refer.length; i++) {
 				html += "<tr><td style='width:75px;'>" + refer[i].Chinese + "</td><td style='width:80px;'>" 
-		        + refer[i].English + "</td> <td style='width:50px;'><a href='javascript:void(0);' style='margin-left:3px;width:60px;' title='选择' onclick=\"pickup('" 
+		        + refer[i].English + "</td> <td style='width:30px;'><a href='javascript:void(0);' style='margin-left:3px;' title='选择' onclick=\"pickup('" 
 		        + refer[i].English + "');\" >选择</a></td></tr>\n";
 		        
 			}
+				*/
+				for (var i = 0; i < sorted.length; i++) {
+					html += "<tr><td style='width:75px;'>" + sorted[i].Chinese + "</td><td style='width:80px;'>" 
+			        + sorted[i].English + "</td> <td style='width:30px;'><a href='javascript:void(0);' style='margin-left:3px;' title='选择' onclick=\"pickup('" 
+			        + sorted[i].English + "');\" >选择</a></td></tr>\n";
+			        
+				}
 			
-			words.show();
-			words.html(html);
+				words.show();
+				words.html(html);
 			}
 		    
 		    var existed = data.Existed;
@@ -239,11 +257,15 @@ $(function () {
 				html += "<div class='source' >" +  enumerableData.getName(existed[i].SourceDictionary?existed[i].SourceDictionary:"", enumerableData.sourceDictionary, true) + "</div></div>"
 			} // style='height:460px;'
 
-			
 			existWords.show();
 			existWords.html(html);
 		    }
 		});
+    }
+
+	$("#Chinese").on("blur", function(){
+		var searchText = document.getElementById("Chinese").value;
+		searchWord(searchText);
 	});
 	
     

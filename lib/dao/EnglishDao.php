@@ -10,7 +10,8 @@ FROM ChineseEnglishDictionary {@where} Order BY {@orderBy}) t WHERE rownum <= {@
 	
 	const GetById_Sentence = 'SELECT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", English "English", Japanese "Japanese", QueryCode "QueryCode", POS "POS", WordCategory "WordCategory"  FROM ChineseEnglishDictionary WHERE WordId = ';
 	
-	const GetByChinese_Sentence = 'SELECT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", English "English", Japanese "Japanese", QueryCode "QueryCode", POS "POS", WordCategory "WordCategory"  FROM ChineseEnglishDictionary WHERE Chinese = \'';
+	//const GetByChinese_Sentence = 'SELECT DISTINCT WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", English "English", Japanese "Japanese", QueryCode "QueryCode", POS "POS", WordCategory "WordCategory"  FROM ChineseEnglishDictionary WHERE Chinese = \'';
+	const GetByChinese_Sentence = 'SELECT DISTINCT  Chinese "Chinese", English "English"  FROM ChineseEnglishDictionary WHERE Chinese = \'';
 	
 	public function GetPaged($startRowIndex, $pageSize, $where, $orderBy) {
 		// 准备好SQL语句
