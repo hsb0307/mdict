@@ -53,6 +53,8 @@ $word = array();
 if($op == "edit" || $op == "create" || $op == "add" || $op == "delete" || $op == "existword" || $op == "update"){
 if(isset($_POST['WordId'])) $word['WordId'] = $_POST['WordId'];
 if(isset($_POST['Chinese'])) $word['Chinese'] = Encode($_POST['Chinese']);
+if(isset($_POST['QueryCode'])) $word['QueryCode'] = Encode($_POST['QueryCode']);
+
 if(isset($_POST['Pinyin'])) $word['Pinyin'] = Encode($_POST['Pinyin']);
 if(isset($_POST['Mongolian'])) $word['Mongolian'] = Encode($_POST['Mongolian']);
 if(isset($_POST['MongolianLatin'])) $word['MongolianLatin'] = Encode($_POST['MongolianLatin']);
@@ -261,7 +263,7 @@ if($op == "unassignedcount"){
 if($op == "approvecount"){
 	$wordCategory = $_POST["WordCategory"];
 	$wordDao = new WordDao();
-	$row = $wordDao->GetCountByWordCategory($wordCategory, 8);// 8:编辑完成
+	$row = $wordDao->GetCountByWordCategory($wordCategory, 8, true);// 8:编辑完成
 	echo $row;// json_encode($row);
 	die();
 	exit();

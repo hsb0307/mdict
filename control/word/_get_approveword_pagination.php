@@ -6,6 +6,9 @@ $where ='';
 $userId = '';
 $roleId = -1;
 $packageId = '1';
+// PackageId=2&UserId=101&Filter=&PageSize=20
+//$userId = 101;
+//$packageId = 2;
 if(isset($_POST["UserId"]))
 {
 	$userId = $_POST["UserId"];
@@ -54,7 +57,8 @@ if(isset($_GET["first"]) == true){
 }
 if($firstRow == 1 &&  count($array['Rows']) > 0) {
 	$wordDao = new WordDao();
-	$first = $wordDao->GetById($array['Rows'][0]['WordId']);
+	//$first = $wordDao->GetById($rows[0]['WordId']);// Chinese
+	$first = $wordDao->GetByChinese($rows[0]['Chinese'], 0);// 
 	$array['First'] = $first;
 }
 echo json_encode( $array);

@@ -24,9 +24,9 @@ class WordDao
     //const DeleteUser_Sentence =  "DELETE FROM DictionaryA WHERE WordId = {@WordId} ";
     const Delete_Sentence =  'UPDATE DictionaryA SET Status = 999 WHERE WordId = {@WordId} ';
     // 修改词条时，暂时不修改词条的状态，仅仅修改数据包明细项的状态
-    const Update_Sentence = 'UPDATE DictionaryA SET Chinese = \'{@Chinese}\', Pinyin = \'{@Pinyin}\', Mongolian = \'{@Mongolian}\', MongolianLatin = \'{@MongolianLatin}\', MongolianCyrillic = \'{@MongolianCyrillic}\', English = \'{@English}\', Japanese = \'{@Japanese}\', WordCategory = {@WordCategory}, LastModifiedBy = {@LastModifiedBy}, LastModifiedDate = sysdate  WHERE WordId = {@WordId} ';//, Status = {@Status}
+    const Update_Sentence = 'UPDATE DictionaryA SET Chinese = \'{@Chinese}\', Pinyin = \'{@Pinyin}\', Mongolian = \'{@Mongolian}\', MongolianLatin = \'{@MongolianLatin}\', MongolianCyrillic = \'{@MongolianCyrillic}\', English = \'{@English}\', Japanese = \'{@Japanese}\', QueryCode = \'{@QueryCode}\', WordCategory = {@WordCategory}, LastModifiedBy = {@LastModifiedBy}, LastModifiedDate = sysdate  WHERE WordId = {@WordId} ';//, Status = {@Status}
     //const Insert_Sentence = "INSERT INTO Users (UserId, UserName, Password, PasswordQuestion, PasswordAnswer, RealName, Gender, Birthday, PINCodes, Mobile, Telephone, Company, Email, QQ, CreateDate, IsApproved, RoleId, Description)  VALUES ({@UserId}, {@UserName}, {@Password}, {@PasswordQuestion}, {@PasswordAnswer}, {@RealName}, {@Gender}, {@Birthday}, {@PINCodes}, {@Mobile}, {@Telephone}, {@Company}, {@Email}, {@QQ}, {@CreateDate}, {@IsApproved}, {@RoleId}, {@Description}) ";
-    const Insert_Sentence = 'INSERT INTO DictionaryA ( Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, OriginalCategory, WordCategory, SourceDictionary, LastModifiedBy, Status )  VALUES (\'{@Chinese}\', \'{@Pinyin}\', \'{@Mongolian}\', \'{@MongolianLatin}\', \'{@MongolianCyrillic}\', \'{@English}\', \'{@Japanese}\', \'{@OriginalCategory}\', \'{@WordCategory}\', \'{@SourceDictionary}\', {@LastModifiedBy}, {@Status}) ';
+    const Insert_Sentence = 'INSERT INTO DictionaryA ( Chinese, Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese, QueryCode, OriginalCategory, WordCategory, SourceDictionary, LastModifiedBy, Status )  VALUES (\'{@Chinese}\', \'{@Pinyin}\', \'{@Mongolian}\', \'{@MongolianLatin}\', \'{@MongolianCyrillic}\', \'{@English}\', \'{@Japanese}\', \'{@QueryCode}\', \'{@OriginalCategory}\', \'{@WordCategory}\', \'{@SourceDictionary}\', {@LastModifiedBy}, {@Status}) ';
     const SelectCurrentWordId_Sentence = 'select DictionaryA_WordId.currval from dual';
     const UpdateStatus_Sentence = 'UPDATE DictionaryA SET Status = {@Status}  WHERE WordId = {@WordId} ';
     
@@ -47,7 +47,7 @@ class WordDao
      join datapackage on entry.datapackageid = datapackage.datapackageid where entry.editdate is not null and datapackage.userid = '{@userid}' order by entry.editdate desc
      ) temp where rownum <=10";
     
-    const GetByChinese_Sentence = 'SELECT  WordId "WordId", Chinese "Chinese", Pinyin "Pinyin", Mongolian "Mongolian", MongolianLatin "MongolianLatin", MongolianCyrillic "MongolianCyrillic", English "English", Japanese "Japanese", ChineseExampleSentence "ChineseExampleSentence", MongolianExampleSentence "MongolianExampleSentence", EnglishExampleSentence "EnglishExampleSentence", JapaneseExampleSentence "JapaneseExampleSentence", ExamineGroup "ExamineGroup", OriginalCategory "OriginalCategory", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", Description "Description", to_char(CreatedDate,\'yyyy-mm-dd hh24:mi:ss\') "CreatedDate" FROM DictionaryA WHERE Status < 20 AND Chinese = \'{@Chinese}\' ';
+    const GetByChinese_Sentence = 'SELECT  WordId "WordId", Chinese "Chinese", QueryCode "QueryCode", Pinyin "Pinyin", Mongolian "Mongolian", MongolianLatin "MongolianLatin", MongolianCyrillic "MongolianCyrillic", English "English", Japanese "Japanese", ChineseExampleSentence "ChineseExampleSentence", MongolianExampleSentence "MongolianExampleSentence", EnglishExampleSentence "EnglishExampleSentence", JapaneseExampleSentence "JapaneseExampleSentence", ExamineGroup "ExamineGroup", OriginalCategory "OriginalCategory", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", Description "Description", to_char(CreatedDate,\'yyyy-mm-dd hh24:mi:ss\') "CreatedDate" FROM DictionaryA WHERE Status < 20 AND Chinese = \'{@Chinese}\' ';
     
     const GetCountByWordCategory_Sentence ='SELECT  count(*) FROM DictionaryA WHERE WordCategory = {@WordCategory} AND Status = {@Status}';
     
@@ -85,10 +85,13 @@ class WordDao
     	return $db->GetSingleVal ( $sql );
     }
     
-    public function GetCountByWordCategory($wordCategory, $status) {
+    public function GetCountByWordCategory($wordCategory, $status, $repetitive=false) {
     	$db = Database::Connect();
     	$sql = str_replace("{@WordCategory}",$wordCategory, WordDao::GetCountByWordCategory_Sentence );
     	$sql = str_replace("{@Status}",$status, $sql );
+    	if($repetitive){
+    		$sql = $sql . ' AND IsRepetitive = 1 ';
+    	}
     	$count = $db->GetSingleVal($sql);
     	$db->Close();
     	return $count;
@@ -97,7 +100,7 @@ class WordDao
     public function GetByChinese($searchText, $id) {
     	$db = Database::Connect();
     	$sql = str_replace("{@Chinese}",trim($searchText), WordDao::GetByChinese_Sentence );
-    	if(isset($id) && $id <> 0) {
+    	if(isset($id) && $id < 1) {
     		$sql = $sql . ' AND WordId <> '.$id; 
     	}
     	$words = $db->GetResultSet($sql);
@@ -141,6 +144,8 @@ class WordDao
 		$sql = str_replace('{@MongolianCyrillic}', $array['MongolianCyrillic'], $sql);
 		$sql = str_replace('{@English}', $array['English'], $sql);
 		$sql = str_replace('{@Japanese}', $array['Japanese'], $sql);
+		$sql = str_replace('{@QueryCode}', $array['QueryCode'], $sql);
+		
 		$sql = str_replace('{@WordCategory}', $array['WordCategory'], $sql);
 		$sql = str_replace('{@LastModifiedBy}', $array['LastModifiedBy'], $sql);
 		$sql = str_replace('{@Status}', $array['Status'], $sql);

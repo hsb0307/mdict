@@ -45,3 +45,5 @@ FROM ChineseEnglishDictionary {@where} Order BY {@orderBy}) t WHERE rownum <= {@
 	}
 	
 }
+
+?>

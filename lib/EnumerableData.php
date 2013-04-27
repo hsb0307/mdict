@@ -40,10 +40,12 @@ return array(
 				array('id'=>4,'name'=>'录入完成'),
 				array('id'=>6,'name'=>'编辑中'),
 				array('id'=>8,'name'=>'编辑完成'),
-				array('id'=>10,'name'=>'审定中'),
-				array('id'=>12,'name'=>'审定完成'),
-				array('id'=>14,'name'=>'已完成'),
-				array('id'=>16,'name'=>'已公布'),
+				array('id'=>12,'name'=>'审定中'),
+				array('id'=>22,'name'=>'审定未决'),
+				array('id'=>24,'name'=>'审定时新增'),
+				array('id'=>26,'name'=>'审定完成'),
+				array('id'=>30,'name'=>'已完成'),
+				array('id'=>32,'name'=>'已公布'),
 				array('id'=>999,'name'=>'已删除')),
 		'UserRole'=>array(
 				array('id'=>0,'name'=>'未使用'),
@@ -87,7 +89,7 @@ return array(
 				
 				array('id'=>301, 'name'=>'录入时修改词条'),
 				array('id'=>302, 'name'=>'编辑时修改词条'),
-				array('id'=>303, 'name'=>'审定时修改词条'),
+				array('id'=>303, 'name'=>'审定时确定词条'),
 				
 				array('id'=>304, 'name'=>'编辑时删除词条'),
 				array('id'=>305, 'name'=>'审定时删除词条'),

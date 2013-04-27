@@ -30,19 +30,22 @@ var str="TopicId, UserId, Title, FullText, LastPostUserId, LastPostText, LastPos
 //var str = "PostId, TopicId, UserId, Title, FullText, DateCreated, Status";
 var str = "专利, 交通, 信息学英语, 农业英语, 农牧林, 冶金, 化学, 化工, 地质, 建筑, 数学, 机械, 林业, 水利, 汽车, 物理, 环境, 电信, 电力, 电梯, 畜牧兽医, 石油, 纺织, 经贸, 能源, 航海, 航空, 船舶, 航道, 计算机, 通信网络, 造纸,";
 var str="WordId, Chinese, Pinyin, English, Japanese, QueryCode, POS, WordCategory, Status, LastModifiedDate";
-
+var str = "Pinyin, Mongolian, MongolianLatin, MongolianCyrillic, English, Japanese";
 			var arr = str.split(",");
 			var s = "";
 			for(var i = 0; i < arr.length; i++){
 				var word = $.trim(arr[i]);
-				s += word + ' "' + word + '", ';// 别名
+				//s += word + ' "' + word + '", ';// 别名
+				//s += 'var '+ word + ' = $("#'+word+'");<br />'+word+'.html("");<br />'+word+'.html(htm'+word+');<br /><br />';
+				
+				
 				//s += "\\'{@" + word + "}\\', "; // insert 语句
 				//s += "$sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql );<br />"; // 创建时赋参数
 				//s += "if (isset ( $array ['" + word + "'] )) { $sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql ); }<br />"; // 创建时赋参数
 				// if (isset ( $array ['TopicId'] )) {
 				//s += "if($oldObj->" + word + " != $newObj['" + word + "']) $diff .= ('" + word + ":'.$oldObj->" + word + ".'=>'.$newObj['" + word + "'].',');<br />";
 				//s += word + ' "' + word + '", '; // select语句的列别名
-				//s+= word + " = \\'{@" + word + "}\\', ";// update语句
+				s+= word + " = \\'{@" + word + "}\\', ";// update语句
 				//s+="\\'{@" + word + "}\\', "; // insert 语句的参数列表
 				//s+="$sql = str_replace('{@" + word + "}\', $array['" + word + "'], $sql);" + "<br />"; // php中用数组值替换值，生成sql语句
 				//s += "$postData['" + word +  "'] = Encode($_POST['" + word +"']);" + "<br />"; // 提取客户端post的值，生成数组作为参数。
@@ -58,6 +61,35 @@ var str="WordId, Chinese, Pinyin, English, Japanese, QueryCode, POS, WordCategor
 	});
 	$(function(){
 		//$("#target").html("Hello World!");
+		
+		function getSQL(str){
+			var arr = str.split(",");
+			var s = "";
+			for(var i = 0; i < arr.length; i++){
+				var word = $.trim(arr[i]);
+				//s += word + ' "' + word + '", ';// 别名
+				//s += 'var '+ word + ' = $("#'+word+'");<br />'+word+'.html("");<br />'+word+'.html(htm'+word+');<br /><br />';
+				
+				
+				//s += "\\'{@" + word + "}\\', "; // insert 语句
+				//s += "$sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql );<br />"; // 创建时赋参数
+				//s += "if (isset ( $array ['" + word + "'] )) { $sql = str_replace ('{@" + word + "}', $array ['" + word + "'], $sql ); }<br />"; // 创建时赋参数
+				// if (isset ( $array ['TopicId'] )) {
+				//s += "if($oldObj->" + word + " != $newObj['" + word + "']) $diff .= ('" + word + ":'.$oldObj->" + word + ".'=>'.$newObj['" + word + "'].',');<br />";
+				//s += word + ' "' + word + '", '; // select语句的列别名
+				s+= word + " = \\'{@" + word + "}\\', ";// update语句
+				//s+="\\'{@" + word + "}\\', "; // insert 语句的参数列表
+				//s+="$sql = str_replace('{@" + word + "}\', $array['" + word + "'], $sql);" + "<br />"; // php中用数组值替换值，生成sql语句
+				//s += "$postData['" + word +  "'] = Encode($_POST['" + word +"']);" + "<br />"; // 提取客户端post的值，生成数组作为参数。
+
+				//s += '"'+ word +'": document.getElementById("'+word +'").value,<br />';
+				//s += "if(isset($_POST['"+word+"'])) $word['"+word+"'] = Encode($_POST['"+word+"']);<br />";
+				//s += '{"id":50' + (i < 10 ? ('0' + (i+1)): (i + 1) )+',"name":"'+ word + '"},<br />';
+
+			}
+			return s;
+		}
+		
 		$("#btn").click(function(){
 			
 			//var s = "select count(*) from [TableName];<br /><br />ALTER TABLE [TableName]  ADD COLUMN SourceDictionary Short;<br />ALTER TABLE [TableName]  ADD COLUMN OriginalCategory Short;<br />ALTER TABLE [TableName]  ADD COLUMN WordCategory Short;<br />ALTER TABLE [TableName]  ADD COLUMN Status Short;<br /><br />update [TableName] set SourceDictionary = index,OriginalCategory = index,WordCategory = index, Status = 0;<br />commit;<br/>select * from [TableName] order by 汉语";
@@ -65,6 +97,8 @@ var str="WordId, Chinese, Pinyin, English, Japanese, QueryCode, POS, WordCategor
 			//s = s.replace(/index/g, $("#index").val()); //
 			
 			//$("#alertAccessTable").html(s);
+			
+			$("#main").html(getSQL($('#txtFields').val()));
 			
 		});
 		
@@ -78,8 +112,9 @@ var str="WordId, Chinese, Pinyin, English, Japanese, QueryCode, POS, WordCategor
 	<div>
 	<form method="post" action="">字典表名：
 	<input type="text" name="tableName" id="tableName">
-	字典序号:<input type="text" name="index" id="index">
-		<input type="button" id="btn" name="btn" value="sql" />
+	字典序号:<input type="text" name="index" id="index"><br />
+	<input type="text" name="txtFields" id="txtFields" style="width:800px;">
+	<input type="button" id="btn" name="btn" value="sql" />
 	</form>
 		</div>
 		<div id="target"></div>

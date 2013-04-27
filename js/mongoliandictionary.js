@@ -71,21 +71,42 @@ var enumerableData = function (){
 		  {id:4, name:"已撤销"},
 		  {id:999, name:"已删除"}
 		],
+		ItemStatus:[
+		     		  {id:0, name:"已分配"},
+		     		  
+		     		  //{id:2, name:"未决"},
+		     		  //{id:4, name:"新增"},
+		     		  //{id:6, name:"确认"},
+		     		  //{id:8, name:"已提交"},
+		     		  
+		     		  {id:1, name:"备用"},
+		     		  {id:2, name:"已处理"},
+		     		  {id:4, name:"已提交"},
+		     		  {id:6, name:"已撤销"},
+		     		  {id:8, name:"已提交"},
+		     		  {id:999, name:"已删除"}
+		     		],
 		wordStatus:[
-			{id:0, name:"新建"},  
-			{id:2, name:"录入中"},  
-			{id:4, name:"录入完成"},  
-			{id:6, name:"编辑中"},  
-			{id:8, name:"编辑完成"},  
-			{id:10, name:"审定中"},
-			{id:12, name:"审定时新增"}, 
-			{id:14, name:"审定时未认可"}, 
-			{id:16, name:"审定时认可"},
-			{id:18, name:"同意审定时新增"},
-			{id:20, name:"审定完成"},
-			{id:22, name:"已完成"},  
-			{id:24, name:"已公布"},  
-			{id:999, name:"已删除"}         
+			{id:0, name:"新建"},
+			{id:2, name:"录入中"},
+			{id:4, name:"录入完成"},
+			{id:6, name:"编辑中"},
+			{id:8, name:"编辑完成"},
+			{id:12, name:"审定中"},
+			//{id:14, name:"审定时新增"}, 
+			{id:16, name:"审定否决"}, 
+			{id:18, name:"审定认可"},
+			
+			{id:22, name:"审定未决"},
+			{id:24, name:"审定时新增"},
+			{id:26, name:"已审定"},
+			
+			//{id:26, name:"审定确认"},
+			//{id:28, name:"审定时新增"},
+
+			{id:30, name:"已完成"},  
+			{id:32, name:"已公布"},  
+			{id:999, name:"已删除"}
 		],
 		wordCategories:[
 {"id":1,"name":"化学"},
@@ -145,6 +166,7 @@ var enumerableData = function (){
 {id:26, name:"汉蒙军事词汇", author:"舍·宝音涛克涛夫", publisher:"内蒙古人民出版社",year:"1990"},
 
 {id:101, name:"社会征集", author:"", publisher:"",year:""},
+{id:201, name:"审定时新增", author:"", publisher:"",year:""},
 
 {id:901, name:"出版社", author:"松迪", publisher:"内蒙古教育出版社",year:"1986"},
 {id:902, name:"报社", author:"松迪", publisher:"内蒙古教育出版社",year:"1986"},

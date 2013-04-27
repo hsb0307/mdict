@@ -45,6 +45,7 @@ CREATE TABLE DictionaryA
 , English VARCHAR2(1023)
 , Japanese VARCHAR2(1023)
 , Russian VARCHAR2(1023)
+, OldMongolian VARCHAR2(1023)
 , ChineseExampleSentence VARCHAR2(2048)
 , MongolianExampleSentence VARCHAR2(2048)
 , EnglishExampleSentence VARCHAR2(2048)
@@ -57,6 +58,7 @@ CREATE TABLE DictionaryA
 , SourceDictionary number(7,0) NOT NULL
 , Status number(3,0) default (0) NOT NULL
 , IsPublished number(1,0) default (0) NOT NULL
+, IsRepetitive number(1,0) default (0) NOT NULL
 , Description VARCHAR2(2048)
 , CreatedDate date default sysdate not null
 , LastModifiedBy NUMBER(10,0) NULL
@@ -282,10 +284,113 @@ CREATE TABLE ChineseEnglishDictionary
   ENABLE 
 );
 
+CREATE INDEX ChineseEnglish_CHINESE ON ChineseEnglishDictionary (CHINESE ASC);
+
 
 CREATE SEQUENCE ChineseEnglishDictionary_Id INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
-CREATE OR REPLACE TRIGGER BEFORE_INSERT_ChineseEnglishDictionary
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_ChineseEnglish
   BEFORE INSERT ON ChineseEnglishDictionary FOR EACH ROW
 BEGIN
   SELECT ChineseEnglishDictionary_Id.nextval INTO :new.WordId FROM dual;
+END;
+
+
+CREATE TABLE DictionaryB
+(
+  WordId NUMBER(10) NOT NULL
+, Chinese VARCHAR2(1023)
+, Pinyin VARCHAR2(1023)
+, Mongolian VARCHAR2(1023)
+, MongolianLatin VARCHAR2(1023)
+, MongolianCyrillic VARCHAR2(1023)
+, English VARCHAR2(1023)
+, Japanese VARCHAR2(1023)
+, Russian VARCHAR2(1023)
+, QueryCode VARCHAR2(63)
+, OriginalId number(10,0) NOT NULL
+, ExamineGroup number(4,0) NULL
+, WordCategory number(4,0) NOT NULL
+, SourceDictionary number(7,0) NOT NULL
+, CreatedBy NUMBER(10,0) default (0) NOT NULL
+, CreatedDate date default sysdate not null
+, LastModifiedBy NUMBER(10,0) default (0) NOT NULL
+, LastModifiedDate date default sysdate not null
+, IsDeleted number(1,0) default (0) NOT NULL
+, IsPublished number(1,0) default (0) NOT NULL
+, Status number(3,0) default (0) NOT NULL
+, Description VARCHAR2(2048)
+, CONSTRAINT DictionaryB_PK PRIMARY KEY  ( WordId )
+  ENABLE 
+);
+
+CREATE SEQUENCE DictionaryB_WordId INCREMENT BY 1 START WITH 1 MAXVALUE 999999999;
+CREATE OR REPLACE TRIGGER BEFORE_INSERT_DictionaryB
+  BEFORE INSERT ON DictionaryB FOR EACH ROW
+BEGIN
+  SELECT DictionaryB_WordId.nextval INTO :new.WordId FROM dual;
+END;
+
+CREATE INDEX DictionaryB_Chinese ON DictionaryB (Chinese ASC);
+CREATE INDEX DictionaryB_WordCategory ON DictionaryB (WordCategory);
+
+
+create or replace procedure seq_reset(v_seqname varchar2) as n number(10);
+tsql varchar2(100);
+ begin
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  n:=-(n-1);
+  tsql:='alter sequence '||v_seqname||' increment by '|| n;
+  execute immediate tsql;
+ execute immediate 'select '||v_seqname||'.nextval from dual' into n;
+  tsql:='alter sequence '||v_seqname||' increment by 1';
+ execute immediate tsql;
+ end seq_reset;
+ 
+ 
+BEGIN
+
+DELETE FROM ApproveItems;
+DELETE FROM ApprovePackage;
+
+DELETE FROM ReviseItems;
+DELETE FROM RevisePackage;
+
+DELETE FROM EditItems;
+DELETE FROM EditPackage;
+
+DELETE FROM DictionaryA;
+
+DELETE FROM Posts;
+DELETE FROM Topics;
+DELETE FROM Logs;
+
+exec seq_reset('ApproveItem_Id');
+exec seq_reset('ApprovePackage_PackageId');
+
+exec seq_reset('ReviseItem_Id');
+exec seq_reset('RevisePackage_PackageId');
+
+exec seq_reset('EditItem_Id');
+exec seq_reset('EditPackage_PackageId');
+
+exec seq_reset('DictionaryA_WordId');
+
+exec seq_reset('Post_PostId');
+exec seq_reset('Topic_TopicId');
+exec seq_reset('Logs_LogId');
+
+END;
+
+BEGIN
+UPDATE DictionaryA SET Chinese = replace(Chinese, ' ', '')
+, Pinyin = trim(Pinyin)
+, Mongolian = trim(Mongolian)
+, MongolianLatin = trim(MongolianLatin)
+, MongolianCyrillic = trim(MongolianCyrillic)
+, English = trim(English)
+, Japanese = trim(Japanese);
+
+UPDATE DictionaryA SET Status = 4;
+UPDATE DictionaryA SET OldMongolian = Mongolian;
+
 END;

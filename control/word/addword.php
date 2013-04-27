@@ -140,6 +140,15 @@ function pickup(elem){
 	document.getElementById('English').value = elem;
 }
 
+function pickupMongolian(text){
+	if(Sys.ie){
+		document.getElementById("txtMongolian").SetUnicodeText(text);
+	} else {
+		document.getElementById("Mongolian").value = text;
+	}
+}
+
+
 $(function () {
 	$("#pageHint").html("词条征集：词条录入");
 	
@@ -253,7 +262,9 @@ $(function () {
 		    var html ='';
 		    if(existed && existed.length > 0) {
 			for (var i = 0; i < existed.length; i++) {
-				html += "<div class='well' style='margin:10px;'><div class='word'>" + (existed[i].Mongolian ? ($.trim(existed[i].Mongolian).length == 0 ? latinToMongolian(existed[i].MongolianLatin) : existed[i].Mongolian ) : latinToMongolian(existed[i].MongolianLatin)) + "</div>";
+				var mongolian = (existed[i].Mongolian ? ($.trim(existed[i].Mongolian).length == 0 ? latinToMongolian(existed[i].MongolianLatin) : existed[i].Mongolian ) : latinToMongolian(existed[i].MongolianLatin));
+				html += "<div class='well' style='margin:10px;padding-left:2px;'><div class='source' style='margin-left:0;margin-right:6px;'><a href='javascript:void(0);' style='margin-left:3px;' title='选择' onclick=\"pickupMongolian('"   + mongolian + "');\" >选择</a></div>" 
+			    html += "<div class='word'>" + mongolian + "</div>";
 				html += "<div class='source' >" +  enumerableData.getName(existed[i].SourceDictionary?existed[i].SourceDictionary:"", enumerableData.sourceDictionary, true) + "</div></div>"
 			} // style='height:460px;'
 
@@ -293,6 +304,7 @@ $(function () {
 				"MongolianCyrillic": "",//document.getElementById("MongolianCyrillic").value,
 				"English": document.getElementById("English").value,
 				"Japanese": document.getElementById("Japanese").value,
+				//"QueryCode":makePy(document.getElementById("Chinese").value);
 				"WordCategory":$("#WordCategory").val(),
 				"Description":$("#Description").val(),
 				"SourceDictionary": 101,//getQueryStringByName("category"), // 为添加词条服务的数据

@@ -125,6 +125,8 @@ switch ($roleId) {
          <input type="hidden" id="WordId" value="" />
          <input type="hidden" id="SourceDictionary" value="" />
          <input type="hidden" id="Status" value="" />
+         <input type="hidden" id="QueryCode" value="" />
+         
          
           <div class="control-group">
             <label class="control-label" for="Chinese">中文:</label>
@@ -272,9 +274,9 @@ $(function () {
 	$("#btnAdd").click(function(){
 		var packageid = ctx.packageId;
 		if(packageid){
-			location = 'newword.php?packageid=' + packageid + '&page=' + ctx.page + '&category=' + document.getElementById("SourceDictionary").value;
+			location = 'newword.php?type=revise&packageid=' + packageid + '&page=' + ctx.page + '&category=' + document.getElementById("SourceDictionary").value;
 		} else {
-			location = 'newword.php?page=' + ctx.page+ '&category=' + document.getElementById("SourceDictionary").value;
+			location = 'newword.php?type=revise&page=' + ctx.page+ '&category=' + document.getElementById("SourceDictionary").value;
 		}
 	});// 
 	$("#history").click(function(){
@@ -370,7 +372,15 @@ $(function () {
 		if(!ctx.word) {
 			alert("当前没有可保存的词条");
 			return false;
-		}		
+		}
+		var queryCode = document.getElementById("QueryCode").value;
+		var chineseText = document.getElementById("Chinese").value;
+		if(!queryCode){
+			queryCode = makePy(document.getElementById("Chinese").value);
+			if(queryCode && queryCode.length > 0){
+				queryCode = queryCode[0];
+			}
+		}
 		var postData = {
 				"ItemId": document.getElementById("ItemId").value,
 				"WordId": document.getElementById("WordId").value,
@@ -384,6 +394,7 @@ $(function () {
 				"SourceDictionary":document.getElementById("SourceDictionary").value, // 为添加词条服务的数据
 				"WordCategory":$("#WordCategory").val(),
 				"LastModifiedBy":<?php echo $_SESSION["UserId"] ?>,
+				"QueryCode":queryCode ? queryCode : makePy(document.getElementById("Chinese").value),
 			    //"Status": 8, // 8表示 编辑完成
 				"PackageStatus":ctx.packageStatus,
 			    "PackageId":ctx.packageId
@@ -476,9 +487,16 @@ $(function () {
 		existWords.hide();
 		$("#aSearch").attr("href","selectword.php?w="+row.Chinese);
 		if(row.Mongolian && $.trim(row.Mongolian).length == 0) { row.Mongolian = "";}
+
+		
+		
 		document.getElementById("ItemId").value = row.ItemId;
 		document.getElementById("WordId").value = row.WordId;
-		document.getElementById("Chinese").value = row.Chinese ? row.Chinese :"";
+		if(row.QueryCode){
+			document.getElementById("QueryCode").value = row.QueryCode;
+		}
+		
+		document.getElementById("Chinese").value = row.Chinese ? row.Chinese :"";		
 		document.getElementById("Pinyin").value = row.Pinyin? row.Pinyin : jQuery.trim( Pinyin.GetQP(row.Chinese));//"";
 		if($.browser.msie){
 			document.getElementById("txtMongolian").SetUnicodeText(row.Mongolian?row.Mongolian:"");
@@ -535,6 +553,8 @@ $(function () {
 		}
 
 		queryWord(true);
+
+		
 	};
 
 	function setRow(li){

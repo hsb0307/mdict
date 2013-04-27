@@ -328,7 +328,6 @@ class Database {
 						$array[$i][] = $row;
 					}
 				}
-				
 			}
 		}
 		

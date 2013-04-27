@@ -42,7 +42,7 @@ $userId = $_SESSION ['UserId'];
 .nav-list{padding-left:0px;padding-right:6px;}
 .nav-list li {position: relative; line-height:30px; }
 .nav-list li a{position:absolute; right:1px; width:14px;padding:0;display:none;  } /* float:right; */
-#Mongolian{height:100px;}
+
 #saveInfo{display:-moz-inline-box;display:inline-block;width:86px;}
 #upDown a{margin-left:10px;}
 .hint{position: relative; }
@@ -53,6 +53,7 @@ $userId = $_SESSION ['UserId'];
 #operation button {margin-left:20px;}
 #operation a {margin-left:20px;}
 #operation span {margin-left:20px;}
+
 </style>
 </head>
 
@@ -66,13 +67,13 @@ $userId = $_SESSION ['UserId'];
 					<a id="btnClear" href="javascript:void(0)"><i class="icon-remove"></i></a>&nbsp;&nbsp;
 					<a id="aSearch" href="selectword.php?w=" target="_blank">在整个词典中查询</a>
 					<span id="operation">
-					<button id="btnAdd" class="btn">增加词条</button>
+					<!-- <button id="btnAdd" class="btn">增加词条</button> -->
 					<a id="left" href="javascript:void(0)" tag="10"><i class="icon-arrow-left"></i></a>
 					<a id="right" href="javascript:void(0)" tag="0"><i class="icon-arrow-right"></i></a>
 					<button id="history" class="btn">历史记录</button></span>
 					<span id="user"><i class="icon-user"></i></span>
 					<span id="imgNav">
-						<a href="../task/myrevisepackage.php" target="_blank" title="我的数据包"><img src="../../images/package.png" alt="我的数据包" /></a>
+						<a href="../task/myapprovepackage.php" target="_blank" title="我的数据包"><img src="../../images/package.png" alt="我的数据包" /></a>
 						<a href="selectword.php" target="_blank" title="词条查询"><img src="../../images/search.png" alt="词条查询" /></a>
 						<a href="../log/index.php" target="_blank" title="操作日志"><img src="../../images/log.png" alt="操作日志" /></a>
 						<a href="../guestbook/index.php" target="_blank" title="留言本"><img src="../../images/guestbook.png" alt="留言本" /></a>
@@ -80,6 +81,7 @@ $userId = $_SESSION ['UserId'];
 				</div>
 		</div>
 	</div>
+	
 	<div class="container">
 		<div class="row">
 			<div class="well sidebar-nav span3">
@@ -89,70 +91,77 @@ $userId = $_SESSION ['UserId'];
 			</div>
 			<div class="well span9">
 			
-			<div class="hint">
-<div class="alert alert-error" style="width:120px; z-index: 100; display:none;">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>警告!</strong> 您有数据包<a href="../task/myrevisepackage.php" target="_blank">已经超期</a>，请尽快提交。
-</div>
-</div>
 			<form class="form-horizontal">
 			<fieldset>
 		<input type="hidden" id="ItemId" value="" />
         <input type="hidden" id="WordId" value="" />
         <input type="hidden" id="SourceDictionary" value="" />
+        <input type="hidden" id="WordCategory" value="" />
         <input type="hidden" id="Status" value="" />
+        <input type="hidden" id="WordId2" value="" />
+        <input type="hidden" id="QueryCode" value="" />
 		
         <div class="control-group">
             <label class="control-label" for="Chinese">中文:</label>
             <div class="controls"><label class="radio" style="padding-left: 0;font-weight:bold;"><span id="Chinese"></span></label></div>
         </div> 
-          
-        <div class="control-group">
-            <label class="control-label" for="WordCategory">词条类别:</label>
-            <div class="controls"><select id="WordCategory" name="WordCategory"></select> </div>
-        </div>
-          
+         <!--   
         <div class="control-group">
             <label class="control-label" for="SourceDictionary">词条来源:</label>
             <div class="controls"><label class="radio" style="padding-left: 0; "><span id="txtSourceDictionary"></span></label></div>
           </div>
+          -->
         <div class="control-group">
             <label class="control-label">拼音:</label>
-            <div class="controls">
-            	<label class="radio">
-                	<input type="radio" name="Pinyin" id="Pinyin1" value="" checked><span></span>
-              	</label>
+            <div class="controls" id="Pinyin">
+            	
             </div>
           </div>
           <div class="control-group">
             <label class="control-label">英文:</label>
-            <div class="controls"><label class="radio"><input type="radio" name="English" id="English1" value="" checked><span></span></label></div>
+            <div class="controls" id="English">
+            
+            </div>
           </div> 
           <div class="control-group">
             <label class="control-label" for="Japanese">日文:</label>
-            <div class="controls"><label class="radio"><input type="radio" name="Japanese" id="Japanese1" value="" checked><span></span></label></div>
+            <div class="controls" id="Japanese">
+            
+            </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="MongolianCyrillic">西里尔蒙文:</label>
-            <div class="controls"><label class="radio"><input type="radio" name="MongolianCyrillic" id="MongolianCyrillic1" value="" checked><span></span></label></div>
+            <div class="controls" id="MongolianCyrillic">
+            
+            </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="MongolianLatin">蒙文拉丁转写:</label>
-            <div class="controls"><label class="radio"><input type="radio" name="MongolianLatin" id="MongolianLatin1" value="" checked><span></span></label></div>
+            <div class="controls" id="MongolianLatin">
+            
+            </div>
           </div>
+          <!-- 
           <div class="control-group">
             <label class="control-label" for="MongolianLatin">传统蒙古文:</label>
             <div class="controls " >
-            	<div class="radio"><input type="radio" name="Mongolian" id="Mongolian1" style="margin-left: 1px;" value="" checked><div class="mongolian" style="margin-top: 26px;  " ></div></div>
+            	class="mongolian"
            	</div>
           </div>
-          
-          
+          <div class="radio mongolian">
+            		<input type="radio" name="Mongolian" id="Mongolian1" style="margin-left: 1px;" value="" checked><div style="margin-top: 26px;  " ></div>
+            		<input type="radio" name="Mongolian" id="Mongolian2" style="margin-left: 1px;" value="" ><div  style="margin-top: 26px;  " ></div>
+           </div>
+          submit
+           -->
+           <div class="mongolian" id="Mongolian">
+           </div>
+           
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">提交</button>
-            <button class="btn">取消</button>
-            
-            <button type="submit" class="btn btn-inverse" style="margin-left: 60px;">修改</button>
+            <button type="button" class="btn btn-primary" id="btnSave">提交</button>
+            <span id="saveInfo" class="text-success">&nbsp;</span>
+            <button type="button" class="btn" id="btnSkip" style="margin-left: 180px;">跳过</button>
+            <button type="button" class="btn btn-inverse" id="btnAdd">新建</button>
           </div>
 			</fieldset>
       </form>
@@ -169,6 +178,7 @@ $userId = $_SESSION ['UserId'];
       </div>
       </div>
       </div>
+	
 <?php include("../../footer.php"); ?>
 <script type="text/javascript" src="../../js/jquery.paging.min.js"></script>
 <script type="text/javascript" src="../../js/mongoliandictionary.js"></script>
@@ -198,6 +208,9 @@ $(function () {
 	ctx.total = 0;
 	ctx.countHandled = 0;
 	ctx.packageStatus = 0;
+	ctx.items = [];
+	var items = [];
+	var itemIds = [];
 
 	var postData = {"PageSize":10000, 
 			"UserId":<?php echo $userId; ?>, 
@@ -208,7 +221,7 @@ $(function () {
 		var count = resp.Count;
 		var rows = resp.Rows;
 		if(rows && rows.length == 0){
-			alert("没有合适的数据包包含需要修改的词条!");
+			alert("没有合适的数据包包含需要审定的词条!");
 			return false;
 		}
 		
@@ -278,7 +291,7 @@ $(function () {
 	    	wordCategory.options[selectedIndex].selected=true;
 	    }
 	}
-	fillWordCategory();
+	//fillWordCategory();
 
 	function setProgress(total, countHandled){
     	var percent = total == 0 ? 0 : Math.round(countHandled/total*100);
@@ -299,9 +312,10 @@ $(function () {
 		if(word) {
 			dataBind(word);
 		} else {
-			jQuery.post("_wordcontroller.php?op=getword&id=" + li.id, {}, function (data) {
+			//var searchText = self.data("itemid");
+			jQuery.post("_wordcontroller.php?op=search" , {"SearchText":self.data("itemid")}, function (data) {
 				var row = eval("(" + data + ")");
-				if(!row.ItemId) row.ItemId = self.data("itemid");
+				//if(!row.ItemId) row.ItemId = self.data("itemid");
 				
 				row.Status = self.data("status");
 				dataBind(row);
@@ -309,36 +323,242 @@ $(function () {
 		}
 	};
 
-	function dataBind(row){
-		if(!row) return;
-		document.getElementById("ItemId").value = row.ItemId;
-		document.getElementById("WordId").value = row.WordId;
-		document.getElementById("Chinese").innerHTML = row.Chinese ? row.Chinese :"";
-		document.getElementById("Pinyin1").value = row.Pinyin;
-		document.getElementById("Pinyin1").nextSibling.innerHTML = row.Pinyin;
-		document.getElementById("MongolianLatin1").value = row.MongolianLatin;
-		document.getElementById("MongolianLatin1").nextSibling.innerHTML = row.MongolianLatin;
-		document.getElementById("MongolianCyrillic1").value = row.MongolianCyrillic;
-		document.getElementById("MongolianCyrillic1").nextSibling.innerHTML = row.MongolianCyrillic;
-		document.getElementById("English1").value = row.English;
-		document.getElementById("English1").nextSibling.innerHTML = row.English;
-		document.getElementById("Japanese1").value = row.Japanese;//row.Japanese?row.Japanese:"";
-		document.getElementById("Japanese1").nextSibling.innerHTML = row.Japanese;
-		document.getElementById("SourceDictionary").value = row.SourceDictionary;
+	function getLatin(s){
+		var latin = '';
+    	var p = -1, q = -1, start = false;
+    	for (var i = 0, j = s.length; i < j; i++) {
+    		var c = s.charAt(i);
+    		var charCode=  c.charCodeAt(0);// charCode < 6144
+    		if(!start && charCode < 127 && charCode > 47){
+	    		p = i;
+	    		//q = i;
+	    		start = true;
+	    		continue;
+    		}
+    		if(start && charCode < 127 && charCode > 47){
+	    		q = i;
+	    		//pre = true;
+	    		continue;
+    		}
+    		if(start && charCode > 127) {
+    			q = i;
+    			break;
+    		}
+    	}
+    	if(p > -1 && (q - p > 1)) {
+    		latin = s.substring(p, q);
+    	}
+    	return latin;
+	}
 
-		document.getElementById("txtSourceDictionary").innerHTML = enumerableData.getName(row.SourceDictionary, enumerableData.sourceDictionary, true) ;
-		setWordCategory(row.WordCategory);
-		//document.getElementById("txtSourceDictionary").innerHTML = enumerableData.getName(row.SourceDictionary?row.SourceDictionary:"", enumerableData.sourceDictionary, true) ;
-		document.getElementById("Status").value = row.Status;
+	function dataBind(rows){
+		var html ='';
+		var maxHeight = 200;
+		var htmPinyin = "", htmMongolianLatin = "", htmMongolianCyrillic = "", htmEnglish = "", htmJapanese = "", htmMongolian = "" ;
+		// <label class='radio'><input type='radio' name='English' id='English1' value='' checked><span></span></label>
+		itemIds = [];
+		ctx.items = [];
+		
+		if(!rows) return;
+		ctx.items = rows;
+		//console.log(ctx.items);
+		var latin = '';
+		if(rows && rows.length > 0 ){
+			latin = getLatin(rows[0].Chinese);
+		}
+		for(var i = 0, j = rows.length; i < j ; i++){
+	    	var index = i + 1, row = rows[i];
+	    	itemIds.push(row.WordId);
+	    	row.Pinyin = row.Pinyin ? row.Pinyin : "";
+	    	row.MongolianLatin = row.MongolianLatin ? row.MongolianLatin : "";
+	    	row.MongolianCyrillic = row.MongolianCyrillic ? row.MongolianCyrillic : "";
+	    	row.English = row.English ? row.English : "";
+	    	row.Japanese = row.Japanese ? row.Japanese : "";
+	    	row.Mongolian = row.Mongolian ? row.Mongolian : "";
+	    	
+	    	if(row.Mongolian && row.Mongolian.length > 15)
+			{
+				var h = row.Mongolian.length * 15;
+				if(latin.length > 0){
+					h = (row.Mongolian.length - latin.length) * 15 + latin.length * 5;
+				}
+				if(row.Mongolian.length > 15 && row.Mongolian.length < 20){
+					h = 300;
+				}
+				if(row.Mongolian.length > 30) {
+					h = row.Mongolian.length * 11;
+				}
+				if(row.Mongolian.length > 40) {
+					h = row.Mongolian.length * 11;
+				}
+				if(maxHeight < h) { maxHeight = h; }
+			}
+	    	if(latin.length > 0){
+	    		row.Mongolian = row.Mongolian.replace(latin, '<span style="font-size:16px;">' + latin + '</span>')
+	    	}
 
-		document.getElementById("Mongolian1").value = row.Mongolian;
-		document.getElementById("Mongolian1").nextSibling.innerHTML = row.Mongolian;
-		//console.log(row.Mongolian.length);
-		//$(document.getElementById("Mongolian1").nextSibling).next().width(200).height(100);
-		if(Sys.ie) {
-			$(document.getElementById("Mongolian1").nextSibling).height(row.Mongolian.length * 10);
+	    	if(i == 0) {
+	    		document.getElementById("WordId").value = row.WordId;
+	    		document.getElementById("Chinese").innerHTML = row.Chinese ? row.Chinese :"";
+	    		document.getElementById("QueryCode").value = row.QueryCode;
+	    		document.getElementById("WordCategory").value = row.WordCategory;
+
+	    		htmPinyin += "<label class='radio'><input type='radio' name='Pinyin' id='Pinyin" + index + "' value='" + row.WordId + "' checked /><span>" + row.Pinyin + "</span></label>";
+	    		htmMongolianLatin += "<label class='radio'><input type='radio' name='MongolianLatin' id='MongolianLatin" + index + "' value='" + row.WordId + "' checked /><span>" + row.MongolianLatin + "</span></label>";
+	    		htmMongolianCyrillic += "<label class='radio'><input type='radio' name='MongolianCyrillic' id='MongolianCyrillic" + index + "' value='" + row.WordId + "' checked /><span>" + row.MongolianCyrillic + "</span></label>";
+	    		htmEnglish += "<label class='radio'><input type='radio' name='English' id='English" + index + "' value='" + row.WordId + "' checked /><span>" + row.English + "</span></label>";
+	    		htmJapanese += "<label class='radio'><input type='radio' name='Japanese' id='Japanese" + index + "' value='" + row.WordId + "' checked /><span>" + row.Japanese + "</span></label>";
+	    		//htmMongolian += "<div style='margin:20px;'><div class='word'><a href='javascript:void(0)'><i class='icon-ok-sign' style='margin-left:8px; margin-bottom:16px;'></i></a>" + (row.Mongolian ) + "</div></div>";
+	    		htmMongolian += "<div style='margin:20px;'><div class='word'><input type='radio' name='Mongolian' id='Mongolian" + index + "' value='" + row.WordId + "' data-sourcedictionary='" + row.SourceDictionary + "' data-wordcategory='" + row.WordCategory + "' data-examinegroup='" + row.ExamineGroup + "' style='margin-left:8px; margin-bottom:10px;' checked />" + (row.Mongolian ) + "</div></div>";
+	    		// 
+	    		
+	    	} else {
+	    		htmPinyin += "<label class='radio'><input type='radio' name='Pinyin' id='Pinyin" + index + "' value='" + row.WordId + "' /><span>" + row.Pinyin + "</span></label>";
+	    		htmMongolianLatin += "<label class='radio'><input type='radio' name='MongolianLatin' id='MongolianLatin" + index + "' value='" + row.WordId + "' /><span>" + row.MongolianLatin + "</span></label>";
+	    		htmMongolianCyrillic += "<label class='radio'><input type='radio' name='MongolianCyrillic' id='MongolianCyrillic" + index + "' value='" + row.WordId + "' /><span>" + row.MongolianCyrillic + "</span></label>";
+	    		htmEnglish += "<label class='radio'><input type='radio' name='English' id='English" + index + "' value='" + row.WordId + "' /><span>" + row.English + "</span></label>";
+	    		htmJapanese += "<label class='radio'><input type='radio' name='Japanese' id='Japanese" + index + "' value='" + row.WordId + "' /><span>" + row.Japanese + "</span></label>";
+	    		//htmMongolian += "<div style='margin:20px;'><div class='word'><a href='javascript:void(0)'><i class='icon-remove-sign' style='margin-left:8px; margin-bottom:16px;'></i></a>" + (row.Mongolian ) + "</div></div>";
+	    		htmMongolian += "<div style='margin:20px;'><div class='word'><input type='radio' name='Mongolian' id='Mongolian" + index + "' value='" + row.WordId + "' data-sourcedictionary='" + row.SourceDictionary + "' data-wordcategory='" + row.WordCategory + "' data-examinegroup='" + row.ExamineGroup + "' style='margin-left:8px; margin-bottom:10px;'/>" + (row.Mongolian ) + "</div></div>";
+	    	}
+	    	
+			//document.getElementById("Pinyin" + index).nextSibling.innerHTML = row.Pinyin;
+			//document.getElementById("MongolianLatin" + index).nextSibling.innerHTML = row.MongolianLatin;
+			//document.getElementById("MongolianCyrillic" + index).nextSibling.innerHTML = row.MongolianCyrillic;
+			//document.getElementById("English" + index).nextSibling.innerHTML = row.English;
+			//document.getElementById("Japanese" + index).nextSibling.innerHTML = row.Japanese;//row.Japanese?row.Japanese:"";
+
+			
+			
+    	}
+		
+
+		var pinyin = $("#Pinyin");
+		pinyin.html('');
+		pinyin.html(htmPinyin);
+
+		var mongolianLatin = $("#MongolianLatin");
+		mongolianLatin.html("");
+		mongolianLatin.html(htmMongolianLatin);
+
+		var mongolianCyrillic = $("#MongolianCyrillic");
+		mongolianCyrillic.html("");
+		mongolianCyrillic.html(htmMongolianCyrillic);
+
+		var english = $("#English");
+		english.html("");
+		english.html(htmEnglish);
+
+		var japanese = $("#Japanese");
+		japanese.html("");
+		japanese.html(htmJapanese);
+		
+		var mongolians = $("#Mongolian");
+		mongolians.html('');
+		mongolians.html(htmMongolian);
+		mongolians.height(maxHeight)
+		//$("#word", mongolians).height(maxHeight);
+		//console.log(maxHeight);
+		//console.log(itemIds);
+		
+	}
+
+	function nextWord(){
+		if(!ctx.word){
+			alert("请先选择一条");
+			return;
+		}
+		if(ctx.index == ctx.pageSize - 1){
+			alert("已经是最后一条记录了，请翻页。");
+			return;
+		}
+		if(ctx.word.nextSibling && ctx.word.nextSibling.nodeName === "LI"){
+			ctx.word = ctx.word.nextSibling;
+			ctx.index = parseInt(ctx.word.getAttribute("tag"));
+			ctx.wordIndex = ctx.startRowIndex + ctx.index + 1;
+			setRow(ctx.word);
 		}
 	}
+	$("#btnSkip").click(function(){
+		nextWord();
+	});
+
+	$("#btnAdd" ).click(function(){
+		var rdoMongolian = jQuery("input[type='radio'][name='Mongolian']:checked");
+		var postData = {
+				"id":document.getElementById("WordId").value,
+				"chinese": document.getElementById("Chinese").innerHTML,
+				"pinyin": jQuery("input[type='radio'][name='Pinyin']:checked").next().html(),//document.getElementById("Pinyin").value,
+				"mongolian": rdoMongolian.parent().text(),//$.browser.msie? document.getElementById("txtMongolian").GetUnicodeText(): document.getElementById("Mongolian").value,
+				"mongolianlatin": jQuery("input[type='radio'][name='MongolianLatin']:checked").next().html(),
+				"mongoliancyrillic": jQuery("input[type='radio'][name='MongolianCyrillic']:checked").next().html(),
+				"english": jQuery("input[type='radio'][name='English']:checked").next().html(),//document.getElementById("English").value,
+				"japanese": jQuery("input[type='radio'][name='Japanese']:checked").next().html(),
+				"category":rdoMongolian.data("wordcategory"),
+				"type":"approve",
+				"page":ctx.page,
+			    "packageid":ctx.packageId
+			};
+		/*
+		var packageid = ctx.packageId;
+		if(packageid){
+			location = 'newword.php?type=approve&packageid=' + packageid + '&page=' + ctx.page + '&category=' + document.getElementById("WordCategory").value+ '&id=' + document.getElementById("WordId").value;
+			location = 'newword.php?' + jQuery.param(postData);
+		} else {
+			location = 'newword.php?type=approve&page=' + ctx.page+ '&category=' + document.getElementById("WordCategory").value+ '&id=' + document.getElementById("WordId").value;
+		}
+		*/
+		location = 'newword.php?' + jQuery.param(postData);
+	});// 
+	
+	$("#btnSave").click(function(){
+		if(!ctx.word) {
+			alert("当前没有可保存的词条");
+			return false;
+		}
+		var rdoMongolian = jQuery("input[type='radio'][name='Mongolian']:checked");
+		var postData = {
+				"WordId":document.getElementById("WordId").value,
+				"OriginalId": rdoMongolian.val(),
+				"WordIds": itemIds.toString(),
+				"Chinese": document.getElementById("Chinese").innerHTML,
+				"QueryCode": document.getElementById("QueryCode").value,
+				"Pinyin": jQuery("input[type='radio'][name='Pinyin']:checked").next().html(),//document.getElementById("Pinyin").value,
+				"Mongolian": rdoMongolian.parent().text(),//$.browser.msie? document.getElementById("txtMongolian").GetUnicodeText(): document.getElementById("Mongolian").value,
+				"MongolianLatin": jQuery("input[type='radio'][name='MongolianLatin']:checked").next().html(),
+				"MongolianCyrillic": jQuery("input[type='radio'][name='MongolianCyrillic']:checked").next().html(),
+				"English": jQuery("input[type='radio'][name='English']:checked").next().html(),//document.getElementById("English").value,
+				"Japanese": jQuery("input[type='radio'][name='Japanese']:checked").next().html(),
+				"SourceDictionary":rdoMongolian.data("sourcedictionary"), // 为添加词条服务的数据
+				"WordCategory":rdoMongolian.data("wordcategory"),
+				"ExamineGroup":rdoMongolian.data("examinegroup"),
+				"CreatedBy":<?php echo $_SESSION["UserId"] ?>,
+				"LastModifiedBy":<?php echo $_SESSION["UserId"] ?>,
+				"Description":"",
+			    "Status": 4, // 8表示 编辑完成
+				"PackageStatus":ctx.packageStatus,
+			    "PackageId":ctx.packageId
+			};
+		//console.log(JSON.stringify(postData));
+		jQuery.post("_approvecontroller.php?action=approve", postData, function (data) {
+			var response = eval("(" + data + ")");
+			var saveInfo = document.getElementById("saveInfo");
+			if(response.success){
+				saveInfo.innerHTML = "保存成功";
+				
+				ctx.navPage = 10;
+				if( document.getElementById("Status").value == 0){
+					ctx.countHandled = ctx.countHandled + 1;
+					document.getElementById("Status").value = 2;
+				}
+				setProgress(ctx.total, ctx.countHandled);
+			} else {
+				saveInfo.innerHTML = "审定失败";
+			}
+
+			setTimeout(function(){saveInfo.innerHTML = " "; },2000);
+		});
+	});
 
 	function refreshWordList(packageId, page){
 		var opts = {//"getCountUrl":"_get_editpackage_count.php",
@@ -365,6 +585,7 @@ $(function () {
 					ctx.countHandled = parseInt(o.countHandled) ;
 					
 					setProgress(o.total, o.countHandled);
+					items = rows;
 					var role = <?php echo $_SESSION ['UserId']; ?>;
 					var html ='';
 					for (var i = 0; i < rows.length; i++) {
@@ -375,17 +596,26 @@ $(function () {
 				        } else {
 				            headWord = rows[i].Chinese;
 				        }
-						if( role > 1){ 
+						if( role > 2){ 
 							//alert(rows[i].Status);
+							/*
 							if(rows[i].Status == 2 || rows[i].Status == 4) { 
-								html += "<li id='" + rows[i].WordId + "' class='text-info' tag='" + i + "' data-itemid='" + rows[i].ItemId + "' data-status='" + rows[i].Status + "'><span>" + headWord + "</span><a href='javascript:void(0)' id='" + rows[i].WordId + "' title='删除' data-itemid='" + rows[i].ItemId + "'><i class='icon-remove'></i></a></li>";
+								html += "<li class='text-info' tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span><a href='javascript:void(0)' title='删除' data-itemid='" + rows[i].Chinese + "'><i class='icon-remove'></i></a></li>";
 							}else if(rows[i].Status == 6) {
-								html += "<li id='" + rows[i].WordId + "' class='text-warning' tag='" + i + "' data-itemid='" + rows[i].ItemId + "' data-status='" + rows[i].Status + "'><span>" + headWord + "</span><a href='javascript:void(0)' id='" + rows[i].WordId + "' title='删除' data-itemid='" + rows[i].ItemId + "'><i class='icon-remove'></i></a></li>";
+								html += "<li class='text-warning' tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span><a href='javascript:void(0)' title='删除' data-itemid='" + rows[i].Chinese + "'><i class='icon-remove'></i></a></li>";
 							}else {
-								html += "<li id='" + rows[i].WordId + "' tag='" + i + "' data-itemid='" + rows[i].ItemId + "' data-status='" + rows[i].Status + "'><span>" + headWord + "</span><a href='javascript:void(0)' id='" + rows[i].WordId + "' title='删除' data-itemid='" + rows[i].ItemId + "'><i class='icon-remove'></i></a></li>";
+								html += "<li tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span><a href='javascript:void(0)' title='删除' data-itemid='" + rows[i].Chinese + "'><i class='icon-remove'></i></a></li>";
+							}
+							*/
+							if(rows[i].Status == 2 || rows[i].Status == 4) { 
+								html += "<li class='text-info' tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span></li>";
+							}else if(rows[i].Status == 6) {
+								html += "<li class='text-warning' tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span></li>";
+							}else {
+								html += "<li tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span></li>";
 							}
 				        }else{
-				        	html += "<li id='" + rows[i].WordId + "' tag='" + i + "' data-itemid='" + rows[i].ItemId + "' data-status='" + rows[i].Status + "'><span>" + headWord + "</span></li>";
+				        	html += "<li tag='" + i + "' data-itemid='" + rows[i].Chinese + "'><span>" + headWord + "</span></li>";
 				        }
 				    }
 				    
@@ -399,7 +629,7 @@ $(function () {
 				    }
 
 				    list.each(function(i){
-				    	jQuery(this).live("click", function(){
+				    	jQuery(this).on("click", function(){
 					    	var index = parseInt(this.getAttribute("tag"));
 					    	ctx.index = index;
 				    		//ctx.index = i;
@@ -409,8 +639,8 @@ $(function () {
 				    		setRow(this);
 				    	});
 					});
-
-				    list.hover(
+					/*
+				    list.on("mouseover",
 				    	//function () { jQuery(this).addClass('active'); },
 				        //function () { jQuery(this).removeClass('active'); }
 				    	function () {
@@ -429,9 +659,6 @@ $(function () {
 		                                data: {"UserId":<?php echo $_SESSION ['UserId']; ?>, "WordId":id, "PackageId":ctx.packageId, "Chinese":btnDelete.parentNode.firstChild.innerHTML},
 		                                success: function (data) {
 		                                    if (data.success) {
-		                                        //alert(data.msg);                                    
-		                                        //operator = "d";
-		                                        //getDcit();
 		                                        $(btnDelete.parentNode).remove();
 		                                        if(ctx.pageSize > 1){
 		                                        	if(ctx.word.nextSibling && ctx.word.nextSibling.nodeName === "LI"){
@@ -453,13 +680,14 @@ $(function () {
 		                            });
 		                        }  
 						    };
-					    },// .children().get(1).css("display","inline")
+					    }).on("mouseout",// .children().get(1).css("display","inline")
 				        function () { 
 					        var btnDelete = jQuery(this).css('background-color','whiteSmoke').children().get(1);
 					        btnDelete.style.display = "none";
 					    	btnDelete.onclick = null;
 					    } // .children().get(1).css("display","none")
 					);
+					*/
 					//list.
 				} // end OnFill
 		};

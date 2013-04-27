@@ -28,8 +28,8 @@ if(!isset($_SESSION["UserId"]))
 .span6{width:460px; margin-left:1px;}
 .span7{width:620px;}
 .span2{width:120px;}
+.word{white-space:nowrap;overflow:hidden; text-overflow:ellipsis;}
 .source{font-family:' \5b8b\4f53';font-size: 14px; margin:4px 0 0 20px; letter-spacing:2px;  word-spacing:4px;}
-
 </style>
 </head>
 
@@ -73,9 +73,7 @@ if(!isset($_SESSION["UserId"]))
 		<div class="span7">
  <div class="row">
  <div class="span2" >
- 	<div class="mongolian ">
 		<textarea cols="3"   class="input-xlarge mongolian" id="Mongolian" style="height: 340px;width:80px;"></textarea>
-	</div>
  </div>
  <div class="span6">
 
@@ -129,8 +127,38 @@ function pickup(elem){
 	//}
 	document.getElementById('English').value = elem;
 }
+function pickupMongolian(text){
+	if(Sys.ie){
+		document.getElementById("txtMongolian").SetUnicodeText(text);
+	} else {
+		document.getElementById("Mongolian").value = text;
+	}
+}
 $(function () {
-	var tableBody = $("#words").hide();
+	//var maxHeight = 200;
+	
+	var words = $("#words");
+	words.html("");
+	words.hide();
+	var existWords = $("#existWords");
+	existWords.html("");
+	existWords.hide();
+
+	var chinese = getQueryStringByName("chinese");
+	if(chinese && chinese.length > 0) {
+		document.getElementById('Chinese').value = decodeURIComponent(getQueryStringByName("chinese").replace(/\+/g," "));
+		document.getElementById('Pinyin').value = decodeURI(getQueryStringByName("pinyin").replace(/\+/g," "));
+		document.getElementById('English').value = decodeURIComponent(getQueryStringByName("english").replace(/\+/g," "));
+		document.getElementById('Japanese').value = decodeURIComponent(getQueryStringByName("japanese").replace(/\+/g," "));
+		if(Sys.ie){
+			document.getElementById("txtMongolian").SetUnicodeText(decodeURIComponent(getQueryStringByName("mongolian").replace(/\+/g," ")));
+		} else {
+			document.getElementById("Mongolian").value = decodeURIComponent(getQueryStringByName("mongolian").replace(/\+/g," "));
+		}
+		getExistWord();
+		
+	}
+	
 	setTimeout(function(){
 		var m=$('#Mongolian');//.offset();
 		var o = m.offset();
@@ -145,7 +173,7 @@ $(function () {
 			//txtMongolian.style.display="none";
 		}
 	},300);
-	$("#Chinese").on("blur", function(){
+	function getExistWord(){
 		var postData = {"SearchText":document.getElementById("Chinese").value};
 		jQuery.post("_wordcontroller.php?op=refer" , postData, function (data) {
 			var data = eval("(" + data + ")");
@@ -164,25 +192,47 @@ $(function () {
 			}
 		    
 		    var existed = data.Existed;
+		    var maxHeight = 500;
 		    var html ='';
 		    if(existed && existed.length > 0) {
 			for (var i = 0; i < existed.length; i++) {
-				html += "<div class='well' style='margin:10px;'><div class='word'>" + (existed[i].Mongolian ? ($.trim(existed[i].Mongolian).length == 0 ? latinToMongolian(existed[i].MongolianLatin) : existed[i].Mongolian ) : latinToMongolian(existed[i].MongolianLatin)) + "</div>";
-				html += "<div class='source' >" +  enumerableData.getName(existed[i].SourceDictionary?existed[i].SourceDictionary:"", enumerableData.sourceDictionary, true) + "</div></div>"
+				var mongolian = (existed[i].Mongolian ? ($.trim(existed[i].Mongolian).length == 0 ? latinToMongolian(existed[i].MongolianLatin) : existed[i].Mongolian ) : latinToMongolian(existed[i].MongolianLatin));
+				html += "<div class='well' style='margin:10px;padding-left:2px;'><div class='source' style='margin-left:0;margin-right:6px;'><a href='javascript:void(0);' style='margin-left:3px;' title='选择' onclick=\"pickupMongolian('"   + mongolian + "');\" >选择</a></div>";
+			    html += "<div class='word'>" + mongolian + "</div>";
+				html += "<div class='source' >" +  enumerableData.getName(existed[i].SourceDictionary?existed[i].SourceDictionary:"", enumerableData.sourceDictionary, true) + "</div></div>";
+				if(existed[i].Mongolian && existed[i].Mongolian.length > 20)
+				{
+					var h = existed[i].Mongolian.length * 10;
+					if(maxHeight < h) { maxHeight = h; }
+				}
 			} // style='height:460px;'
 			var existWords = $("#existWords").show();
 			existWords.html();
 			existWords.html(html);
+			existWords.height(maxHeight + 10)
 		    }
 		});
+	}
+	$("#Chinese").on("blur", function(){
+		getExistWord();
 	});
+	
 	
 	$("#btnSave").click(function(){
 		var packageid = getQueryStringByName("packageid");
+		var queryCode = makePy(document.getElementById("Chinese").value);
+		if(queryCode.length){
+			queryCode = queryCode[0];
+		} else {
+			queryCode = "";
+		}
+		
 		var postData = {
 				//"ItemId": document.getElementById("ItemId").value,
 				//"WordId": document.getElementById("WordId").value,
+				"OriginalId": getQueryStringByName("id"),
 				"Chinese": document.getElementById("Chinese").value,
+				"QueryCode": queryCode,
 				"Pinyin": document.getElementById("Pinyin").value,
 				"Mongolian": $.browser.msie? document.getElementById("txtMongolian").GetUnicodeText(): document.getElementById("Mongolian").value,
 				"MongolianLatin": "", //document.getElementById("MongolianLatin").value,
@@ -190,6 +240,7 @@ $(function () {
 				"English": document.getElementById("English").value,
 				"Japanese": document.getElementById("Japanese").value,
 				"SourceDictionary":getQueryStringByName("category"), // 为添加词条服务的数据
+				"WordCategory":getQueryStringByName("category"), // 为添加词条服务的数据
 				"LastModifiedBy":<?php echo $_SESSION["UserId"] ?>,
 			    "Status": 9, // 9表示新增词条
 			    "PackageId":packageid
@@ -202,26 +253,51 @@ $(function () {
 			alert("必须录入传统蒙古文！");
 			return false;
 		}
-		jQuery.post("_wordcontroller.php?op=create", postData, function (data) {
-			var data = eval("(" + data + ")");
-			if(data.success){
-				if(packageid){
-					location = 'reviseword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+		// 
+		var controllerName = getQueryStringByName("type");
+		if(controllerName == 'revise'){
+			jQuery.post("_wordcontroller.php?op=create", postData, function (data) {
+				var data = eval("(" + data + ")");
+				if(data.success){
+					if(packageid){
+						location = 'reviseword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+					} else {
+						location = 'reviseword.php?page=' + getQueryStringByName("page");
+					}
 				} else {
-					location = 'reviseword.php?page=' + getQueryStringByName("page");
+					alert("添加词条失败");
 				}
-			} else {
-				alert("添加词条失败");
-
-			}
-		});
+			});
+		} else {
+			jQuery.post("_approvecontroller.php?action=create", postData, function (data) {
+				var data = eval("(" + data + ")");
+				if(data.success){
+					if(packageid){
+						location = 'approveword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+					} else {
+						location = 'approveword.php?page=' + getQueryStringByName("page");
+					}
+				} else {
+					alert("添加词条失败");
+				}
+			});
+		}
 	});
 	$("#btnCancel").click(function(){
 		var packageid = getQueryStringByName("packageid");
-		if(packageid){
-			location = 'reviseword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+		var controllerName = getQueryStringByName("type");
+		if(controllerName == 'revise'){
+			if(packageid){
+				location = 'reviseword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+			} else {
+				location = 'reviseword.php?page=' + getQueryStringByName("page");
+			}
 		} else {
-			location = 'reviseword.php?page=' + getQueryStringByName("page");
+			if(packageid){
+				location = 'approveword.php?packageid=' + packageid + '&page=' + getQueryStringByName("page");
+			} else {
+				location = 'approveword.php?page=' + getQueryStringByName("page");
+			}
 		}
 	});
 	

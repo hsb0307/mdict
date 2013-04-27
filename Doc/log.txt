@@ -1,5 +1,62 @@
 
 
+JSON.stringify(obj)将JSON转为字符串。JSON.parse(string)将字符串转为JSON格式；
+
+jqXHR.success(), jqXHR.error(), and jqXHR.complete() 被弃用
+要使用：jqXHR.done(), jqXHR.fail(), and jqXHR.always() 
+
+http://fanyi.youdao.com/openapi?path=data-mode
+
+2526
+update DictionaryA set Chinese = replace(Chinese, ' ', '')
+where WordId = 2526
+commit
+
+update DictionaryA set Chinese = trim(Chinese)
+
+update DictionaryA set IsRepetitive = 1
+WHERE WordCategory = 4 AND IsRepetitive = 0
+AND Chinese in (select  Chinese  from  DictionaryA WHERE WordCategory = 4 AND Status < 900 group  by  Chinese  having  count(Chinese) > 1)
+
+SELECT  WordId "WordId", Chinese "Chinese", WordCategory "WordCategory", SourceDictionary "SourceDictionary", Status "Status", IsRepetitive 
+FROM DictionaryA
+WHERE WordCategory = 4 AND IsRepetitive = 0
+AND Chinese in (select  Chinese  from  DictionaryA WHERE WordCategory = 4 AND Status < 900 group  by  Chinese  having  count(Chinese) > 1)
+
+
+
+<div class="hint">
+<div class="alert alert-error" style="width:120px; z-index: 100; display:none;">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>警告!</strong> 您有数据包<a href="../task/myrevisepackage.php" target="_blank">已经超期</a>，请尽快提交。
+</div>
+</div>
+计算机、地理学、体育学、法律学
+
+ <div class="progress" id="progress">
+		<div class="bar" style="width: 0;"></div>
+	</div>
+	
+	<div id="bottomPager">
+		<div id="pageinfo"></div>
+		<div class="ypager toppagination" id="pager"></div>
+	</div>
+
+SELECT  WordId, Chinese
+    		FROM DictionaryA 
+WHERE WordCategory = 4
+AND Chinese in (select  Chinese  from  DictionaryA WHERE WordCategory = 4 AND Status < 900 group  by  Chinese  having  count(Chinese) > 1)
+
+
+alter table DictionaryA add ( IsRepetitive number(1,0) default (0) NOT NULL)
+
+commit
+
+update DictionaryA set IsRepetitive = 1
+WHERE WordCategory = 4
+AND Chinese in (select  Chinese  from  DictionaryA WHERE WordCategory = 4 AND Status < 900 group  by  Chinese  having  count(Chinese) > 1)
+
+
 git@github.com:hsb0307/mdict.git
 
 https://github.com/hsb0307/mdict.git
@@ -28,6 +85,7 @@ alter table DictionaryA add ( LastModifiedBy NUMBER(10,0) default (0) NOT NULL)
 alter table DictionaryA add ( LastModifiedDate date default sysdate NOT NULL)
 alter table ApproveItems add (ModifiedDate date default sysdate not null);
 
+alter table DictionaryA add ( IsRepetitive number(1,0) default (0) NOT NULL)
 
 "Chinese", "Mongolian", "MongolianLatin", "MongolianCyrillic", "English", "OriginalCategory", "WordCategory", "SourceDictionary"
 
